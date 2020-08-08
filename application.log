@@ -1,0 +1,267 @@
+2020-08-08 15:42:45,849    Inserting data - START 
+
+2020-08-08 15:42:45,941    MySQL inserted OK 
+ SQL: [INSERT INTO sysinfo (osname, nodename, version, osarch, cpuarch, cores_ph, cores_t, max_freq, min_freq, total_mem, swap_total, d_total, boot) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)] 
+
+2020-08-08 15:42:45,943    MySQL inserted OK 
+ SQL: [INSERT INTO cpu (cur_freq, cpu_usage_t) VALUES (%s, %s)] 
+
+2020-08-08 15:42:45,945    MySQL inserted OK 
+ SQL: [INSERT INTO disk (read_io, write_io, d_used, d_free) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:42:45,947    MySQL inserted OK 
+ SQL: [INSERT INTO network (sent_b, sent_p, recv_b, recv_p) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:42:45,948    MySQL inserted OK. 
+ SQL: [INSERT INTO ram (avail_mem, used_mem, swap_used, swap_free) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:42:45,948    Sleep time. Next insert in 30 s 
+
+2020-08-08 15:42:46,864   INFO   jarvis :  ========= JARVIS SERVER STARTED ================
+2020-08-08 15:42:46,865   INFO   jarvis :  ========= version 1.0.0 ================
+2020-08-08 15:42:46,869   INFO   werkzeug :   * Running on http://0.0.0.0:8081/ (Press CTRL+C to quit)
+2020-08-08 15:43:03,627   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:03,627   INFO   root :  SQL used [
+SELECT 
+ROUND((SUM(c.cpu_usage_t)) / (COUNT(c.id)), 2) as 'CPU avg %',
+ROUND((SUM(c.cur_freq)) / (COUNT(c.id)), 2) as 'CPU frequency avg in  GHz',
+ROUND((SUM(r.used_mem)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'RAM used avg in GB',
+ROUND((SUM(r.swap_used)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'SWAP used avg in GB'
+FROM cpu c, ram r;]
+2020-08-08 15:43:04,319   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:04,319   INFO   root :  SQL used [
+SELECT 
+ROUND((SUM(d.read_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Read I/O avg in GB',
+ROUND((SUM(d.write_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Write I/O avg in GB',
+ROUND((SUM(n.sent_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Sent avg in GB',
+ROUND((SUM(n.recv_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Received avg in GB'
+FROM disk d, network n;]
+2020-08-08 15:43:04,322   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:04,322   INFO   root :  SQL used [
+SELECT nodename, osname, osarch, cpuarch, boot 
+FROM sysinfo 
+ORDER BY updated DESC LIMIT 1;]
+2020-08-08 15:43:04,326   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:04,326   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(d_total / 1024 / 1024 / 1024)) as total_space, 
+CONCAT(ROUND(total_mem / 1024 / 1024 / 1024)) as total_ram, 
+CONCAT(ROUND(swap_total / 1024 / 1024 / 1024)) as total_swap, cores_ph, cores_t, max_freq, min_freq 
+FROM sysinfo 
+ORDER BY updated DESC LIMIT 1;]
+2020-08-08 15:43:06,562   INFO   root :  Successfully called VisualizeDataPie.CreatePieForTwo().
+2020-08-08 15:43:06,562   INFO   root :  SQL used [
+SELECT ROUND(c.cur_freq)as Current_frequency_MHz, 
+ROUND(s.max_freq) as MAX_frequency_MHz 
+FROM cpu c, sysinfo s 
+ORDER BY c.updated 
+DESC LIMIT 1;]
+2020-08-08 15:43:06,562   INFO   root :  Pie-chart <CPU_frequency> created
+2020-08-08 15:43:06,664   INFO   root :  Successfully called VisualizeDataPie.CreatePieForTwo().
+2020-08-08 15:43:06,665   INFO   root :  SQL used [
+SELECT CONCAT(sent_p) Sent_packets, 
+CONCAT(recv_p) Received_packets 
+FROM network 
+ORDER by updated 
+DESC LIMIT 1;]
+2020-08-08 15:43:06,665   INFO   root :  Pie-chart <Network_packets> created
+2020-08-08 15:43:06,766   INFO   root :  Successfully called VisualizeDataPie.CreatePieForTwo().
+2020-08-08 15:43:06,766   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(sent_b / 1024 / 1024 )) Sent_MB, 
+CONCAT(ROUND(recv_b / 1024 / 1024 )) Received_MB 
+FROM network 
+ORDER by updated 
+DESC LIMIT 1;]
+2020-08-08 15:43:06,766   INFO   root :  Pie-chart <Network_MB> created
+2020-08-08 15:43:10,642   INFO   root :  Successfully called VisualizeDataPie.CreatePieForThree().
+2020-08-08 15:43:10,642   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(s.total_mem / 1024 / 1024 / 1024)) Total_RAM, 
+CONCAT(ROUND(r.avail_mem / 1024 / 1024 / 1024)) Available_RAM, 
+CONCAT(ROUND(r.used_mem / 1024 / 1024 / 1024)) Used_RAM  
+FROM sysinfo s, ram r 
+ORDER by r.updated 
+DESC LIMIT 1;]
+2020-08-08 15:43:10,643   INFO   root :  Pie-chart <RAM> created
+2020-08-08 15:43:14,411   INFO   root :  Successfully called VisualizeDataPie.CreatePieForThree().
+2020-08-08 15:43:14,411   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(s.d_total / 1024 / 1024 / 1024)) Total, 
+CONCAT(ROUND(d.d_used / 1024 / 1024 / 1024)) Used, 
+CONCAT(ROUND(d.d_free / 1024 / 1024 / 1024)) Free 
+FROM sysinfo s, disk d 
+ORDER by d.updated 
+DESC LIMIT 1;]
+2020-08-08 15:43:14,411   INFO   root :  Pie-chart <Disk> created
+2020-08-08 15:43:16,050    MySQL inserted OK 
+ SQL: [INSERT INTO sysinfo (osname, nodename, version, osarch, cpuarch, cores_ph, cores_t, max_freq, min_freq, total_mem, swap_total, d_total, boot) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)] 
+
+2020-08-08 15:43:16,052    MySQL inserted OK 
+ SQL: [INSERT INTO cpu (cur_freq, cpu_usage_t) VALUES (%s, %s)] 
+
+2020-08-08 15:43:16,055    MySQL inserted OK 
+ SQL: [INSERT INTO disk (read_io, write_io, d_used, d_free) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:43:16,056    MySQL inserted OK 
+ SQL: [INSERT INTO network (sent_b, sent_p, recv_b, recv_p) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:43:16,057    MySQL inserted OK. 
+ SQL: [INSERT INTO ram (avail_mem, used_mem, swap_used, swap_free) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:43:16,058    Sleep time. Next insert in 30 s 
+
+2020-08-08 15:43:18,172   INFO   root :  Successfully called VisualizeDataPie.CreatePieForThree().
+2020-08-08 15:43:18,173   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(s.swap_total / 1024 / 1024 / 1024)) Total_SWAP, 
+CONCAT(ROUND(r.swap_free / 1024 / 1024 / 1024)) Available_SWAP, 
+CONCAT(ROUND(r.swap_used / 1024 / 1024 / 1024)) Used_SWAP  
+FROM sysinfo s, ram r 
+ORDER by r.updated 
+DESC LIMIT 1;]
+2020-08-08 15:43:18,173   INFO   root :  Pie-chart <Swap> created
+2020-08-08 15:43:18,206   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /dashboard HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,302   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/guard.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,308   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/Network_packets_pie.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,310   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/CPU_frequency_pie.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,318   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/Network_MB_pie.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,318   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/Disk_pie.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,320   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/Swap_pie.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,324   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[37mGET /static/RAM_pie.png HTTP/1.1[0m" 200 -
+2020-08-08 15:43:18,396   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2020-08-08 15:43:46,161    MySQL inserted OK 
+ SQL: [INSERT INTO sysinfo (osname, nodename, version, osarch, cpuarch, cores_ph, cores_t, max_freq, min_freq, total_mem, swap_total, d_total, boot) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)] 
+
+2020-08-08 15:43:46,165    MySQL inserted OK 
+ SQL: [INSERT INTO cpu (cur_freq, cpu_usage_t) VALUES (%s, %s)] 
+
+2020-08-08 15:43:46,170    MySQL inserted OK 
+ SQL: [INSERT INTO disk (read_io, write_io, d_used, d_free) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:43:46,172    MySQL inserted OK 
+ SQL: [INSERT INTO network (sent_b, sent_p, recv_b, recv_p) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:43:46,175    MySQL inserted OK. 
+ SQL: [INSERT INTO ram (avail_mem, used_mem, swap_used, swap_free) VALUES (%s, %s, %s, %s)] 
+
+2020-08-08 15:43:46,175    Sleep time. Next insert in 30 s 
+
+2020-08-08 15:43:49,109   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:49,109   INFO   root :  SQL used [SELECT cur_freq,cpu_usage_t FROM cpu ORDER BY cpu_usage_t DESC LIMIT 15;]
+2020-08-08 15:43:49,270   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:49,270   INFO   root :  SQL used [SELECT cpu_usage_t, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 15;]
+2020-08-08 15:43:49,450   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:49,450   INFO   root :  SQL used [SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 15;]
+2020-08-08 15:43:49,612   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:49,612   INFO   root :  SQL used [
+SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
+cpu_usage_t as 'CPU load % ', 
+updated as 'DATE' 
+FROM cpu 
+ORDER by updated DESC LIMIT 10;
+]
+2020-08-08 15:43:49,617   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:49] "[37mGET /cpu_stats HTTP/1.1[0m" 200 -
+2020-08-08 15:43:50,563   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:50,563   INFO   root :  SQL used [
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM ram 
+ORDER by updated 
+DESC LIMIT 20;
+]
+2020-08-08 15:43:50,817   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:50,818   INFO   root :  SQL used [
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
+ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
+updated as 'DATE' 
+FROM ram ORDER BY updated DESC LIMIT 10;
+]
+2020-08-08 15:43:50,822   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:50] "[37mGET /ram_stats HTTP/1.1[0m" 200 -
+2020-08-08 15:43:51,853   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:51,853   INFO   root :  SQL used [SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB', DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' from network ORDER by updated DESC LIMIT 20;]
+2020-08-08 15:43:52,038   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:52,038   INFO   root :  SQL used [SELECT ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB', DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' from network ORDER by updated DESC LIMIT 20;]
+2020-08-08 15:43:52,248   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:52,248   INFO   root :  SQL used [
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
+ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM network 
+ORDER by updated DESC LIMIT 10;
+]
+2020-08-08 15:43:52,252   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:52] "[37mGET /net_stats HTTP/1.1[0m" 200 -
+2020-08-08 15:43:53,902   INFO   root :  Psutil Process handling started
+2020-08-08 15:43:53,959   INFO   root :  Successfully obtained Process object [names, statuses, cpu info, memory info]
+2020-08-08 15:43:53,963   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:53] "[37mGET /processes HTTP/1.1[0m" 200 -
+2020-08-08 15:43:56,881   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:56,881   INFO   root :  SQL used [
+SELECT 
+ROUND((SUM(c.cpu_usage_t)) / (COUNT(c.id)), 2) as 'CPU avg %',
+ROUND((SUM(c.cur_freq)) / (COUNT(c.id)), 2) as 'CPU frequency avg in  GHz',
+ROUND((SUM(r.used_mem)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'RAM used avg in GB',
+ROUND((SUM(r.swap_used)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'SWAP used avg in GB'
+FROM cpu c, ram r;]
+2020-08-08 15:43:57,441   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,441   INFO   root :  SQL used [SELECT cur_freq,cpu_usage_t FROM cpu ORDER BY cpu_usage_t DESC LIMIT 15;]
+2020-08-08 15:43:57,588   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,588   INFO   root :  SQL used [SELECT cpu_usage_t, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 15;]
+2020-08-08 15:43:57,643   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,643   INFO   root :  SQL used [
+SELECT 
+ROUND((SUM(d.read_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Read I/O avg in GB',
+ROUND((SUM(d.write_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Write I/O avg in GB',
+ROUND((SUM(n.sent_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Sent avg in GB',
+ROUND((SUM(n.recv_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Received avg in GB'
+FROM disk d, network n;]
+2020-08-08 15:43:57,655   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,655   INFO   root :  SQL used [
+SELECT nodename, osname, osarch, cpuarch, boot 
+FROM sysinfo 
+ORDER BY updated DESC LIMIT 1;]
+2020-08-08 15:43:57,677   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,677   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(d_total / 1024 / 1024 / 1024)) as total_space, 
+CONCAT(ROUND(total_mem / 1024 / 1024 / 1024)) as total_ram, 
+CONCAT(ROUND(swap_total / 1024 / 1024 / 1024)) as total_swap, cores_ph, cores_t, max_freq, min_freq 
+FROM sysinfo 
+ORDER BY updated DESC LIMIT 1;]
+2020-08-08 15:43:57,801   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,801   INFO   root :  SQL used [SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 15;]
+2020-08-08 15:43:57,971   INFO   root :  Successfully called GetSQLData.GetData().
+2020-08-08 15:43:57,971   INFO   root :  SQL used [
+SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
+cpu_usage_t as 'CPU load % ', 
+updated as 'DATE' 
+FROM cpu 
+ORDER by updated DESC LIMIT 10;
+]
+2020-08-08 15:43:57,972   INFO   werkzeug :  127.0.0.1 - - [08/Aug/2020 15:43:57] "[37mGET /cpu_stats HTTP/1.1[0m" 200 -
+2020-08-08 15:44:00,312   INFO   root :  Successfully called VisualizeDataPie.CreatePieForTwo().
+2020-08-08 15:44:00,312   INFO   root :  SQL used [
+SELECT ROUND(c.cur_freq)as Current_frequency_MHz, 
+ROUND(s.max_freq) as MAX_frequency_MHz 
+FROM cpu c, sysinfo s 
+ORDER BY c.updated 
+DESC LIMIT 1;]
+2020-08-08 15:44:00,312   INFO   root :  Pie-chart <CPU_frequency> created
+2020-08-08 15:44:00,417   INFO   root :  Successfully called VisualizeDataPie.CreatePieForTwo().
+2020-08-08 15:44:00,418   INFO   root :  SQL used [
+SELECT CONCAT(sent_p) Sent_packets, 
+CONCAT(recv_p) Received_packets 
+FROM network 
+ORDER by updated 
+DESC LIMIT 1;]
+2020-08-08 15:44:00,418   INFO   root :  Pie-chart <Network_packets> created
+2020-08-08 15:44:00,517   INFO   root :  Successfully called VisualizeDataPie.CreatePieForTwo().
+2020-08-08 15:44:00,517   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(sent_b / 1024 / 1024 )) Sent_MB, 
+CONCAT(ROUND(recv_b / 1024 / 1024 )) Received_MB 
+FROM network 
+ORDER by updated 
+DESC LIMIT 1;]
+2020-08-08 15:44:00,517   INFO   root :  Pie-chart <Network_MB> created
+2020-08-08 15:44:04,341   INFO   root :  Successfully called VisualizeDataPie.CreatePieForThree().
+2020-08-08 15:44:04,341   INFO   root :  SQL used [
+SELECT CONCAT(ROUND(s.total_mem / 1024 / 1024 / 1024)) Total_RAM, 
+CONCAT(ROUND(r.avail_mem / 1024 / 1024 / 1024)) Available_RAM, 
+CONCAT(ROUND(r.used_mem / 1024 / 1024 / 1024)) Used_RAM  
+FROM sysinfo s, ram r 
+ORDER by r.updated 
+DESC LIMIT 1;]
+2020-08-08 15:44:04,341   INFO   root :  Pie-chart <RAM> created

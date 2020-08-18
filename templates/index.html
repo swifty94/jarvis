@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>PyGuard v1.0.1</title>
+<title>Jarvis v1.0.2</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -26,7 +26,6 @@ th, td {
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-bar-item w3-right">Logo</span>
 </div>
 
 <!-- Sidebar/menu -->
@@ -36,9 +35,7 @@ th, td {
       <img class="w3-image" src="{{ url_for('static', filename='guard.png')}}" width="300" height="200">
     </div>
     <div class="w3-col s8 w3-bar">
-      {% if result %}
-      <span>Howdy,<strong>{{ username }}</strong></span><br>
-      {% endif %}
+      <span>Howdy,<strong>Admin</strong></span><br>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
       <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
@@ -207,28 +204,22 @@ th, td {
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
       <div class="w3-third">
-        <h4>CPU frequency MHz</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='CPU_frequency_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='cpu_pie.png')}}">
       </div>
       <div class="w3-third">
-        <h4>Network sent/received packets</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Network_packets_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='net_p_pie.png')}}">
       </div>
       <div class="w3-third">
-        <h4>Network sent/received MB</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Network_MB_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='net_mb_pie.png')}}">
       </div>
       <div class="w3-third">
-        <h4>RAM</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='RAM_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='ram_pie.png')}}">
       </div>
       <div class="w3-third">
-        <h4>Disk</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Disk_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='disk_pie.png')}}">
       </div>
       <div class="w3-third">
-        <h4>Swap</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Swap_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='swap_pie.png')}}">
       </div>
      </div>
     </div>

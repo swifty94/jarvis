@@ -26,7 +26,6 @@ th, td {
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-bar-item w3-right">Logo</span>
 </div>
 
 <!-- Sidebar/menu -->
@@ -71,15 +70,15 @@ th, td {
     <div class="w3-row-padding" style="margin:0 -16px">
       <div class="w3-third">
         <h4>RAM Usage vs Time</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='RAM_vs_Time.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='ram_vs_time.png')}}">
       </div>
       <div class="w3-third">
         <h4>Total/Used/Free RAM</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='RAM_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='ram_pie.png')}}">
       </div>
       <div class="w3-third">
         <h4>Total/Used/Free SWAP</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Swap_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='swap_pie.png')}}">
       </div>
      </div>
     </div>

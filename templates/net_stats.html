@@ -26,7 +26,6 @@ th, td {
 <!-- Top container -->
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-bar-item w3-right">Logo</span>
 </div>
 
 <!-- Sidebar/menu -->
@@ -70,16 +69,13 @@ th, td {
   <div class="w3-panel">
     <div class="w3-row-padding" style="margin:0 -16px">
       <div class="w3-third">
-        <h4>Sent_MB</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Sent_MB.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='sentb_vs_time.png')}}">
       </div>
       <div class="w3-third">
-        <h4>Received_MB</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Received_MB.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='resvb_vs_time.png')}}">
       </div>
       <div class="w3-third">
-        <h4>Network packets I/O</h4>
-        <img class="w3-image" src="{{ url_for('static', filename='Network_packets_pie.png')}}">
+        <img class="w3-image" src="{{ url_for('static', filename='net_p_pie.png')}}">
       </div>
      </div>
     </div>

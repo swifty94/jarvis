@@ -29,7 +29,6 @@ th, td {
   <!-- Top container -->
   <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
     <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-    <span class="w3-bar-item w3-right">Logo</span>
   </div>
 
   <!-- Sidebar/menu -->
@@ -73,16 +72,13 @@ th, td {
     <div class="w3-panel">
       <div class="w3-row-padding" style="margin:0 -16px;background-color:#ffffff;">
         <div class="w3-third">
-          <h4>CPU frequency VS CPU load</h4>
-          <img class="w3-image" src="{{ url_for('static', filename='cpuf_vs_cpul.png')}}">
+          <img class="w3-image" src="{{ url_for('static', filename='coretemp_vs_time.png')}}">
         </div>
         <div class="w3-third">
-          <h4>CPU frequency ordered by time</h4>
-          <img class="w3-image" src="{{ url_for('static', filename='cpu_freq_by_time.png')}}">
+          <img class="w3-image" src="{{ url_for('static', filename='cur_freq_vs_time.png')}}">
         </div>
         <div class="w3-third">
-          <h4>CPU load ordered by time</h4>
-          <img class="w3-image" src="{{ url_for('static', filename='cpu_load_by_time.png')}}">
+          <img class="w3-image" src="{{ url_for('static', filename='cpu_usage_vs_time.png')}}">
         </div>
       </div>
       </div>

@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.31, for Linux (x86_64)
 --
--- Host: localhost    Database: pyguard_v1
+-- Host: localhost    Database: jarvis
 -- ------------------------------------------------------
 -- Server version	5.7.31-0ubuntu0.18.04.1
 
@@ -16,12 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `pyguard_v1`
+-- Current Database: `jarvis`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `pyguard_v1` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `jarvis` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
-USE `pyguard_v1`;
+USE `jarvis`;
 
 --
 -- Table structure for table `cpu`
@@ -35,9 +35,10 @@ CREATE TABLE `cpu` (
   `cur_freq` decimal(10,2) NOT NULL,
   `cpu_usage_t` decimal(10,2) NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `coretemp` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `SECONDARY` (`updated`)
-) ENGINE=InnoDB AUTO_INCREMENT=2700 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +57,7 @@ CREATE TABLE `disk` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `SECONDARY` (`updated`)
-) ENGINE=InnoDB AUTO_INCREMENT=2505 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -75,7 +76,7 @@ CREATE TABLE `network` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `SECONDARY` (`updated`)
-) ENGINE=InnoDB AUTO_INCREMENT=2499 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +95,7 @@ CREATE TABLE `ram` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `SECONDARY` (`updated`)
-) ENGINE=InnoDB AUTO_INCREMENT=2497 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,24 +123,7 @@ CREATE TABLE `sysinfo` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `SECONDARY` (`updated`)
-) ENGINE=InnoDB AUTO_INCREMENT=1793 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `passwd` varchar(45) NOT NULL,
-  `user_group` int(11) NOT NULL DEFAULT '1',
-  `is_activated` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -151,4 +135,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-10 22:28:58
+-- Dump completed on 2020-08-12 23:45:20

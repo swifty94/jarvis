@@ -3,11 +3,14 @@ mpl.use ( 'Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
 import dateutil
+import io
+import base64
 from datetime import datetime
 from sql_strings import dbconfig
 import mysql.connector
 import os
 import logging
+from sql_strings import *
 #####################
 #
 #   LOGGING PROPERTIES
@@ -36,9 +39,9 @@ def get_sql_data(sql):
             return result
             cursor.close()
         except Exception as e:
-            logging.error(f'JARVIS: FAIL call get_sql_data()')
+            logging.error(f'JARVIS: FAILED to call get_sql_data()')
             logging.error(f'SQL used [{sql}]')
-            logging.error(f'JARVIS: Caught exception [ {e} ]')
+            logging.error(f'JARVIS: get_sql_data() caught exception [ {e} ]')
             logging.error('JARVIS: Full trace: \n', exc_info=1)
             cursor.close()
 
@@ -56,18 +59,18 @@ def get_sql_fetchone(sql):
         cursor = mydb.cursor()
         cursor.execute(sql)
         result = list(cursor.fetchone())
-        logging.info('JARVIS: OK call get_sql_fetchone()')
+        logging.info('JARVIS: call get_sql_fetchone()')
         logging.info(f'SQL used [{sql}]')
         return result
         cursor.close()
     except Exception as e:
-        logging.error(f'JARVIS: FAIL call get_sql_fetchone()')
+        logging.error(f'JARVIS: FAILED to call get_sql_fetchone()')
         logging.error(f'SQL used [{sql}]')
-        logging.error(f'JARVIS: Caught exception [ {e} ]')
+        logging.error(f'JARVIS: get_sql_fetchone() caught exception [ {e} ]')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
         cursor.close()
 
-def pie_for_three(sql, labels, title, name):
+def pie_for_three(sql, labels, title):
     """
     Function for creating matplotlib pie chart with 3 slices
     Accepting sql query, labels, title and name.
@@ -77,6 +80,7 @@ def pie_for_three(sql, labels, title, name):
 
     pie_for_three(some_qeury, some_label, some_title, some_name)
     """
+    img = io.BytesIO()
     result = get_sql_fetchone(sql)
     data = result
     colors = ['gold', 'yellowgreen', 'lightcoral']
@@ -86,16 +90,19 @@ def pie_for_three(sql, labels, title, name):
     plt.pie(data, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=60)
     plt.axis('equal')
     try:
-        plt.savefig(f'static/{name}_pie.png')
-        logging.info('JARVIS: OK call pie_for_three()')
-        logging.info(f'JARVIS: Created [ {name} ] pie chart')
-        return plt.clf()
+        plt.savefig(img, format='png')
+        pie_for_three = base64.b64encode(img.getvalue()).decode()
+        img.seek(0)
+        logging.info('JARVIS: call pie_for_three()')
+        logging.info(f'JARVIS: Created [ {title} ] pie chart')
+        plt.clf()
+        return pie_for_three
     except Exception as e:
-        logging.error('JARVIS: FAIL call pie_for_three()')
-        logging.error(f'JARVIS: Caught exception [ {e} ]')
+        logging.error('JARVIS: FAILED to call pie_for_three()')
+        logging.error(f'JARVIS: pie_for_three() caught exception [ {e} ]')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
     
-def pie_for_two(sql, labels, title, name):
+def pie_for_two(sql, labels, title):
     """
     Function for creating matplotlib pie chart with 2 slices
     Accepting sql query, labels, title and name.
@@ -105,6 +112,7 @@ def pie_for_two(sql, labels, title, name):
 
     pie_for_two(some_qeury, some_label, some_title, some_name)
     """
+    img = io.BytesIO()
     result = get_sql_fetchone(sql)
     data = result
     colors = ['gold', 'yellowgreen']
@@ -114,16 +122,19 @@ def pie_for_two(sql, labels, title, name):
     plt.pie(data, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=60)
     plt.axis('equal')
     try:
-        plt.savefig(f'static/{name}_pie.png')
-        logging.info('JARVIS: OK call pie_for_two()')
-        logging.info(f'JARVIS: Created [ {name} ] pie chart')
-        return plt.clf()
+        plt.savefig(img, format='png')
+        pie_for_two = base64.b64encode(img.getvalue()).decode()
+        img.seek(0)
+        logging.info('JARVIS: call pie_for_two()')
+        logging.info(f'JARVIS: Created [ {title} ] pie chart')
+        plt.clf()
+        return pie_for_two
     except Exception as e:
-        logging.error('JARVIS: FAIL call pie_for_two()')
-        logging.error(f'JARVIS: Caught exception [ {e} ]')
+        logging.error('JARVIS: FAILED to call pie_for_two()')
+        logging.error(f'JARVIS: pie_for_two() caught exception [ {e} ]')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
 
-def param_vs_time_graph(sql, name, title, ylable, xlable):
+def param_vs_time_graph(sql, title, ylable, xlable):
     """
     Function for creating matplotlib plot chart with correlation between parameter and time
     Accepting sql query, labels, title and name.
@@ -133,6 +144,7 @@ def param_vs_time_graph(sql, name, title, ylable, xlable):
 
     pie_for_two(some_qeury, some_label, some_title, some_name)
     """
+    img = io.BytesIO()
     result = get_sql_data(sql)
     param = []
     time = []
@@ -151,11 +163,14 @@ def param_vs_time_graph(sql, name, title, ylable, xlable):
     ax.xaxis.set_major_formatter(xfmt)
     plt.plot(dates,param)
     try:
-        plt.savefig(f'static/{name}.png')
+        plt.savefig(img, format='png')
+        param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
+        img.seek(0)
         logging.info('JARVIS: Call param_vs_time_graph()')
-        logging.info(f'JARVIS: Created [ {name} ] plot graph')
-        return plt.clf()
+        logging.info(f'JARVIS: Created [ {title} ] plot graph')
+        plt.clf()
+        return param_vs_time_graph
     except Exception as e:
-        logging.error('JARVIS: FAIL call param_vs_time_graph()')
-        logging.error(f'JARVIS: Caught exception [ {e} ]')
+        logging.error('JARVIS: FAILED to call param_vs_time_graph()')
+        logging.error(f'JARVIS: param_vs_time_graph() caught exception [ {e} ]')
         logging.error('JARVIS: Full trace: \n', exc_info=1)

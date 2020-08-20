@@ -3,5 +3,5 @@ venv/
 .vscode
 .git
 .idea
-log/
 application.log
+log/*.log*

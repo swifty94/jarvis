@@ -45,7 +45,7 @@ def main():
             insert_data(net_insert, (sent_b, sent_p, recv_b, recv_p))
             insert_data(info_insert, (osname, nodename, version, osarch, cpuarch, cores_ph, cores_t, max_freq, min_freq, total_mem, swap_total, d_total, boot_h))
             logging.info('Jarvis INFO: sql_worker.main() sleep.')
-            time.sleep(150)
+            time.sleep(300)
         except Exception as e:
             logging.error(f'JARVIS: Caught exception in sql_worker.main() [ {e} ]')
             logging.error('JARVIS: Full trace: \n', exc_info=1)

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<title>Jarvis v1.0.2</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<body class="w3-white">
+<nav class="w3-sidebar w3-collapse" style="z-index:3;width:300px;" id="Sidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img class="w3-image" src="{{ url_for('static', filename='logo.webp')}}" width="400" height="300">
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container" id="Menu">
+    <h5>Menu</h5>
+  </div>
+  <div class="w3-bar-block" id="DropDown">
+    <a href="/dashboard" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info fa-fw"></i>  Dashboard</a>
+    <a href="/cpu_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  CPU stats</a>
+    <a href="/ram_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  RAM stats</a>
+    <a href="/disk_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  Disk stats</a>
+    <a href="/net_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  Network stats</a>
+    <a href="/processes" class="w3-bar-item w3-button w3-padding"><i class="fa fa-server fa-fw"></i>  Processes</a>
+  </div>
+</nav>
+<div class="w3-main" style="margin-left:300px;margin-top:0;" id="main">
+<header class="w3-center">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+  <h3 class="w3-center">Jarvis v1.0.2</h5>
+  <br>
+  <h4 class="w3-center">Monitoring and analysis tool</h4>
+  <div class="w3-row-padding w3-margin-bottom">
+      <table id="t01" style="width:100%">
+        <tr>
+          <th>Hostname</th>
+          <th>OS type</th> 
+          <th>OS architecture</th>
+          <th>CPU architecture</th>
+          <th>Boot time</th>
+        </tr>
+        {% for nodename,osname,osarch,cpuarch,boot in sysinfo_result1 %}
+        <tr>
+          <td>{{ nodename }}</td>
+          <td>{{ osname }}</td>
+          <td>{{ osarch }}</td>
+          <td>{{ cpuarch }}</td>
+          <td>{{ boot }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    <br>
+      <table id="t01" style="width:100%">
+        <tr>
+          <th>Total space</th>
+          <th>Total RAM</th> 
+          <th>Total SWAP</th>
+          <th>Physical cores</th>
+          <th>Logical cores</th>
+          <th>Max CPU frequency MHz</th>
+          <th>Min CPU frequency MHz</th>
+        </tr>
+        {% for d_total,total_mem,swap_total,cores_ph,cores_t,max_freq,min_freq in sysinfo_result2 %}
+        <tr>
+          <td>{{ d_total }}</td>
+          <td>{{ total_mem }}</td>
+          <td>{{ swap_total }}</td>
+          <td>{{ cores_ph }}</td>
+          <td>{{ cores_t }}</td>
+          <td>{{ max_freq }}</td>
+          <td>{{ min_freq }}</td>
+        </tr>
+        {%  endfor %}
+        </table>
+  </div>
+</header>
+{% block content %}
+<!-- Dynamic page content for child items goes here -->
+{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+#main {
+  background-color: #edffeb;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+#t01 {
+  width: 100%; 
+  table-layout: fixed;   
+  background-color: #ffffff;
+}
+.threshold-breach { background-color: #e35b5b; }
+
+#Sidebar, #Menu, #DropDown {
+  background-color: #edffeb;
+}

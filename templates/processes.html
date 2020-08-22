@@ -1,28 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
+<br>
 <div class="w3-row-padding w3-margin-bottom ">
- <button id="w3-button w3-black"> 
-<a href="/processes">Refresh Table</a>
-</button>
-          <table id="t01" style="width:100%">
-            <tr>
-              <th>Name</th>
-              <th>Location</th> 
-              <th>CPU used</th>
-              <th>RAM used</th>
-            </tr>
-            {% for a,b,c,d in result %}
-            <tr>
-              <td>{{ a }}</td>
-              <td>{{ b }}</td>
-              {% if c > 1000 %}
-                <td class="threshold-breach">{{ c }}</td>
-              {% else %}
-                <td>{{ c }}</td>
-              {% endif %}
-              <td>{{ d }}</td>                            
-            </tr>
-            {% endfor %}
-          </table>
-       </div>
+  <table id="t01" style="width:100%">
+    <tr>
+      <th>Name</th>
+      <th>Location</th> 
+      <th>CPU used</th>
+      <th>RAM used</th>
+    </tr>
+    {% for a,b,c,d in result %}
+    <tr>
+      <td>{{ a }}</td>
+      <td>{{ b }}</td>
+      {% if c > 50.0 %}
+        <td class="threshold-breach">{{ c }}</td>
+      {% else %}
+        <td>{{ c }}</td>
+      {% endif %}
+      <td>{{ d }}</td>                            
+    </tr>
+    {% endfor %}
+    </table>
+</div>
 {% endblock %}

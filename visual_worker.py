@@ -2,24 +2,48 @@ import matplotlib as mpl
 mpl.use ( 'Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
-import dateutil
 import io
+import os
+import time
+from time import time
 import base64
+import mysql.connector
+import dateutil
+import logging
 from datetime import datetime
 from sql_strings import dbconfig
-import mysql.connector
-import os
-import logging
-from sql_strings import *
-#####################
+##########################
 #
 #   LOGGING PROPERTIES
 #
-#####################
+##########################
 FORMAT = '%(asctime)s  %(levelname)s :  %(message)s'
 logging.basicConfig(filename="application.log", level=logging.INFO, format=FORMAT)
+###################################
+#
+#   Function performace wrapper
+#
+###################################
+def performance(fn):
+  def wrapper(*args, **kwargs):
+    start = time()
+    result = fn(*args, **kwargs)
+    end = time()
+    delta = round((end - start), 4)
+    out = {
+        'Function':     fn.__name__,
+        'Time, sec': delta,
+    }
+    logging.info(f'JARVIS: @performace.wrapper() \n {out} \n')
+    return result
+  return wrapper
+#################################
+#
+#   Main visualization functions
+#
+#################################
 
-
+@performance
 def get_sql_data(sql):
         """
         Function for multi-row data fetch from the MySQL. 
@@ -34,17 +58,16 @@ def get_sql_data(sql):
             cursor = mydb.cursor()
             cursor.execute(sql)
             result = cursor.fetchall()
-            logging.info('JARVIS: OK call get_sql_data()')
-            logging.info(f'SQL used [{sql}]')
+            logging.info(f'JARVIS: visual_worker.get_sql_fetchone() \n SQL used  {sql} \n')
             return result
             cursor.close()
         except Exception as e:
-            logging.error(f'JARVIS: FAILED to call get_sql_data()')
-            logging.error(f'SQL used [{sql}]')
+            logging.error(f'JARVIS: FAILED to call visual_worker.get_sql_fetchone() \n SQL used {sql} \n')
             logging.error(f'JARVIS: get_sql_data() caught exception [ {e} ]')
             logging.error('JARVIS: Full trace: \n', exc_info=1)
             cursor.close()
 
+@performance
 def get_sql_fetchone(sql):
     """
     Function for single row data fetch from the MySQL.
@@ -58,17 +81,16 @@ def get_sql_fetchone(sql):
         mydb = mysql.connector.connect(**dbconfig)
         cursor = mydb.cursor()
         cursor.execute(sql)
-        result = list(cursor.fetchone())
-        logging.info('JARVIS: call get_sql_fetchone()')
-        logging.info(f'SQL used [{sql}]')
+        result = cursor.fetchone()
+        logging.info(f'JARVIS: visual_worker.get_sql_fetchone() \n SQL used {sql} \n')
         return result
         cursor.close()
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call get_sql_fetchone()')
-        logging.error(f'SQL used [{sql}]')
-        logging.error(f'JARVIS: get_sql_fetchone() caught exception [ {e} ]')
+        logging.error(f'JARVIS: FAILED to call visual_worker.get_sql_fetchone() \n SQL used {sql} \n')
+        logging.error(f'JARVIS: visual_worker.get_sql_fetchone() caught exception [ {e} ]')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
         cursor.close()
+
 
 def pie_for_three(sql, labels, title):
     """
@@ -93,15 +115,13 @@ def pie_for_three(sql, labels, title):
         plt.savefig(img, format='png')
         pie_for_three = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info('JARVIS: call pie_for_three()')
-        logging.info(f'JARVIS: Created [ {title} ] pie chart')
+        logging.info(f'JARVIS: visual_worker.pie_for_three() \n Created [ {title} ] pie chart \n')
         plt.clf()
         return pie_for_three
     except Exception as e:
-        logging.error('JARVIS: FAILED to call pie_for_three()')
-        logging.error(f'JARVIS: pie_for_three() caught exception [ {e} ]')
+        logging.error(f'JARVIS:FAILED to call visual_worker.pie_for_three() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
-    
+
 def pie_for_two(sql, labels, title):
     """
     Function for creating matplotlib pie chart with 2 slices
@@ -125,13 +145,11 @@ def pie_for_two(sql, labels, title):
         plt.savefig(img, format='png')
         pie_for_two = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info('JARVIS: call pie_for_two()')
-        logging.info(f'JARVIS: Created [ {title} ] pie chart')
+        logging.info(f'JARVIS: visual_worker.pie_for_two() \n Created [ {title} ] pie chart \n')
         plt.clf()
         return pie_for_two
     except Exception as e:
-        logging.error('JARVIS: FAILED to call pie_for_two()')
-        logging.error(f'JARVIS: pie_for_two() caught exception [ {e} ]')
+        logging.error(f'JARVIS: FAILED to call visual_worker.pie_for_two() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
 
 def param_vs_time_graph(sql, title, ylable, xlable):
@@ -142,7 +160,7 @@ def param_vs_time_graph(sql, title, ylable, xlable):
 
     Example:
 
-    pie_for_two(some_qeury, some_label, some_title, some_name)
+    param_vs_time_graph(some_qeury, some_label, some_title, some_name)
     """
     img = io.BytesIO()
     result = get_sql_data(sql)
@@ -152,11 +170,11 @@ def param_vs_time_graph(sql, title, ylable, xlable):
         param.append(item[0])
         time.append(item[1])
     dates = [dateutil.parser.parse(s) for s in time]
-    plt.subplots_adjust(wspace=0.1, bottom=0.4)
+    plt.subplots_adjust(wspace=0.2, bottom=0.5)
     plt.xticks(rotation=50)
     plt.title(title)
-    plt.ylabel(ylable, fontsize=12)
-    plt.xlabel(xlable, fontsize=12)
+    plt.ylabel(ylable, fontsize=8)
+    plt.xlabel(xlable, fontsize=8)
     ax=plt.gca()
     ax.set_xticks(dates)
     xfmt = md.DateFormatter('%Y-%m-%d %H:%M:%S')
@@ -166,11 +184,9 @@ def param_vs_time_graph(sql, title, ylable, xlable):
         plt.savefig(img, format='png')
         param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info('JARVIS: Call param_vs_time_graph()')
-        logging.info(f'JARVIS: Created [ {title} ] plot graph')
+        logging.info(f'JARVIS: visual_worker.param_vs_time_graph() \n Created [ {title} ] plot graph \n')
         plt.clf()
         return param_vs_time_graph
     except Exception as e:
-        logging.error('JARVIS: FAILED to call param_vs_time_graph()')
-        logging.error(f'JARVIS: param_vs_time_graph() caught exception [ {e} ]')
+        logging.error(f'JARVIS: FAILED to call visual_worker.param_vs_time_graph() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)

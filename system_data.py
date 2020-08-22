@@ -14,7 +14,7 @@ used_mem = svmem.used
 # CPU data
 cpufreq = psutil.cpu_freq()
 cur_freq = cpufreq.current
-cpu_usage_t = psutil.cpu_percent()
+cpu_usage_t = psutil.cpu_percent(interval=0.1)
 sensors_temp = psutil.sensors_temperatures()
 coretemp_raw = sensors_temp["coretemp"]
 temps = []

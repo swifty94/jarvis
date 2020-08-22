@@ -2,9 +2,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
+  
 }
 #main {
-  background-color: #edffeb;
+  background-color: #ffffff;
 }
 th, td {
   padding: 15px;
@@ -14,9 +15,12 @@ th, td {
   width: 100%; 
   table-layout: fixed;   
   background-color: #ffffff;
+  color: black;
 }
-.threshold-breach { background-color: #e35b5b; }
+.threshold-breach { 
+  background-color: #ffb5b5;
+}
 
-#Sidebar, #Menu, #DropDown {
-  background-color: #edffeb;
+#Header {
+  color: black;
 }

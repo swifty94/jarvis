@@ -1,14 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="w3-third">
-  <img class="w3-image" src="data:image/png;base64, {{ coretemp }}">
-</div>
-<div class="w3-third">
-  <img class="w3-image" src="data:image/png;base64, {{ cpu_usage_vs_time }}">
-</div>
-<div class="w3-third">
-  <img class="w3-image" src="data:image/png;base64, {{ cpu_freq_vs_time }}">
-</div>
+<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%">
+<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ cpu_usage_vs_time }}"  width="100%">
+<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ coretemp }}" width="100%">
+<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ cpu }}"  width="100%">
 <table id="t01" style="width:100%">
   <tr>
     <th>CPU frequency</th>

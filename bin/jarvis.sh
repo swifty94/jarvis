@@ -36,16 +36,16 @@ start() {
                 echo ''
                 echo "Jarvis server: Web server start"
                 echo ''
-                echo "Jarvis server: Application start"
+                echo "Jarvis server: Application start..."
                 venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &
                 venv/bin/python3 $JARVIS_HOME/sql_worker.py  >> application.log &
                 echo ''
-                sleep 3 && grep "JARVIS" application.log
+                sleep 3
+                echo 'Jarvis server: DONE!'
                 echo ''
-                grep version application.log|tail -n 1
+                echo 'Jarvis server: You can check the GUI via:'
                 echo ''
-                tail -n 1 application.log|awk '{print $3 "  " $6 " " $7 " " $8}'
-                
+                echo "http://your_domain_or_ip_address:8080/"
         else    
                 cd $JARVIS_HOME
                 echo "Jarvis server: Virtual environment NOT FOUND!"
@@ -81,11 +81,12 @@ start() {
                 echo ''
                 echo "Jarvis server: Application start"
                 echo ''
-                sleep 3 && grep "JARVIS" application.log
+                sleep 3
+                echo 'Jarvis server: DONE!'
                 echo ''
-                grep version application.log|tail -n 1
+                echo 'Jarvis server: You can check the GUI via:'
                 echo ''
-                tail -n 1 application.log|awk '{print $3 "  " $6 " " $7 " " $8}'
+                echo "http://your_domain_or_ip_address:8080/"
                 
         fi
 }

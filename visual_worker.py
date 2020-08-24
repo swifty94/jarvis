@@ -58,11 +58,11 @@ def get_sql_data(sql):
             cursor = mydb.cursor()
             cursor.execute(sql)
             result = cursor.fetchall()
-            logging.info(f'JARVIS: visual_worker.get_sql_fetchone() \n SQL used  {sql} \n')
+            logging.info(f'JARVIS: visual_worker -> get_sql_fetchone() \n SQL used  {sql} \n')
             return result
             cursor.close()
         except Exception as e:
-            logging.error(f'JARVIS: FAILED to call visual_worker.get_sql_fetchone() \n SQL used {sql} \n')
+            logging.error(f'JARVIS: FAILED to call visual_worker -> get_sql_fetchone() \n SQL used {sql} \n')
             logging.error(f'JARVIS: get_sql_data() caught exception [ {e} ]')
             logging.error('JARVIS: Full trace: \n', exc_info=1)
             cursor.close()
@@ -115,11 +115,11 @@ def pie_for_three(sql, labels, title):
         plt.savefig(img, format='png')
         pie_for_three = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info(f'JARVIS: visual_worker.pie_for_three() \n Created [ {title} ] pie chart \n')
+        logging.info(f'JARVIS: visual_worker -> pie_for_three() \n Created [ {title} ] pie chart \n')
         plt.clf()
         return pie_for_three
     except Exception as e:
-        logging.error(f'JARVIS:FAILED to call visual_worker.pie_for_three() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS:FAILED to call visual_worker -> pie_for_three() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
 
 def pie_for_two(sql, labels, title):
@@ -145,11 +145,11 @@ def pie_for_two(sql, labels, title):
         plt.savefig(img, format='png')
         pie_for_two = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info(f'JARVIS: visual_worker.pie_for_two() \n Created [ {title} ] pie chart \n')
+        logging.info(f'JARVIS: visual_worker -> pie_for_two() \n Created [ {title} ] pie chart \n')
         plt.clf()
         return pie_for_two
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker.pie_for_two() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS: FAILED to call visual_worker -> pie_for_two() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
 
 def param_vs_time_graph(sql, title, ylable, xlable):
@@ -184,9 +184,9 @@ def param_vs_time_graph(sql, title, ylable, xlable):
         plt.savefig(img, format='png')
         param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info(f'JARVIS: visual_worker.param_vs_time_graph() \n Created [ {title} ] plot graph \n')
+        logging.info(f'JARVIS: visual_worker -> param_vs_time_graph() \n Created [ {title} ] plot graph \n')
         plt.clf()
         return param_vs_time_graph
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker.param_vs_time_graph() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS: FAILED to call visual_worker -> param_vs_time_graph() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)

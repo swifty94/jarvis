@@ -34,7 +34,7 @@ def process_monitor():
     paths = []
     cpus = []
     mems = []
-    logging.info('JARVIS: jarvis.process_monitor() START \n')
+    logging.info('JARVIS: jarvis -> process_monitor() START \n')
     procs = psutil.pids()
     for i in procs:
         try:
@@ -59,7 +59,7 @@ def process_monitor():
             logging.error('JARVIS: Full trace: \n', exc_info=1)
 
     result = list(zip(names,paths,cpus,mems))
-    logging.info('JARVIS: jarvis.process_monitor() FINISH \n')
+    logging.info('JARVIS: jarvis -> process_monitor() FINISH \n')
     result.sort(key=lambda x: x[2], reverse=True)
     return result
 #####################
@@ -146,6 +146,12 @@ def cpu_stats():
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
     logging.info('JARVIS: HTTP request for /cpu_stats STATUS: 200 OK \n')
+
+@app.route('/cpu_history')
+def cpu_history():
+  if request.method == 'POST':
+        date = request.form['date']
+        date_f = datetime.strptime(date, '%Y-%m-%d').strftime('%d.%m.%Y')
 
 @app.route('/ram_stats', methods=['POST', 'GET'])
 def ram_stats():

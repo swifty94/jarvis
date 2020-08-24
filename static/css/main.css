@@ -21,6 +21,15 @@ th, td {
   background-color: #ffb5b5;
 }
 
-#Header {
-  color: black;
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 5px;
+  cursor: pointer;
+  background-color: #4CAF50;
 }

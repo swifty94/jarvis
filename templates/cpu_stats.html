@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%">
-<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ cpu_usage_vs_time }}"  width="100%">
-<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ coretemp }}" width="100%">
-<img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ cpu }}"  width="100%">
+<h3 class="w3-center">Date filter. Default - today (latest)</h3>
+
+<form class="w3-block w3-panel w3-center" action = "/cpu_ondate" method = "POST">
+  <input class="button w3-left" type = "submit" value = "On a specific date"/>
+  <p><input class="w3-left" type="date" name="date" format="dd/mm/yyyy" placeholder="DD-MM-YYYY"></p>
+  <button class="button w3-left">
+    <a href="/cpu_weekly">This week</a>
+  </button>
+  <button class="button w3-left">
+    <a href="/cpu_monthly">This month</a>
+  </button>
+</form>
+<img class="w3-half w3-center" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%">
+<img class="w3-half w3-center" src="data:image/png;base64, {{ cpu_usage_vs_time }}"  width="100%">
+<img class="w3-half w3-center" src="data:image/png;base64, {{ coretemp }}" width="100%">
+<img class="w3-half w3-center" src="data:image/png;base64, {{ cpu }}"  width="100%">
 <table id="t01" style="width:100%">
   <tr>
     <th>CPU frequency</th>

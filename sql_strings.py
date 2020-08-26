@@ -48,7 +48,6 @@ VALUES (%s, %s, %s, %s)"""
 #   SQL queries for the views in the UI interfase (processed by visual_worker.py)
 #
 ####################################################################################
-
 #################################
 #
 #   SQL Queries for charts/pies
@@ -118,7 +117,7 @@ SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
 DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
 FROM ram 
 ORDER by updated 
-DESC LIMIT 10;
+DESC LIMIT 7;
 """
 ram_vs_time_title = 'RAM usage'
 ram_vs_time_ylable = 'Megabytes'
@@ -129,7 +128,7 @@ SELECT ROUND(swap_used / 1024 / 1024, 2) as 'Used SWAP in MB',
 DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
 FROM ram 
 ORDER by updated 
-DESC LIMIT 10;
+DESC LIMIT 7;
 """
 swap_vs_time_title = 'SWAP usage'
 swap_vs_time_ylable = 'Megabytes'
@@ -141,7 +140,8 @@ SELECT ROUND(write_io / 1024 / 1024, 2) as 'Write I/O in MB',
 DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
 FROM disk 
 ORDER by updated 
-DESC LIMIT 10;"""
+DESC LIMIT 7;
+"""
 wio_vs_time_title = 'Write MB from hard drive'
 wio_vs_time_ylable = 'Megabytes'
 wio_vs_time_xlable = 'Date and time'
@@ -151,7 +151,8 @@ rio_vs_time_q = """
 SELECT ROUND(read_io / 1024 / 1024, 2) as 'Read I/O in MB', 
 DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
 FROM disk 
-ORDER by updated DESC LIMIT 10;"""
+ORDER by updated DESC LIMIT 7;
+"""
 rio_vs_time_title = 'Read MB from hard drive'
 rio_vs_time_ylable = 'Megabytes'
 rio_vs_time_xlable = 'Date and time'
@@ -160,7 +161,8 @@ sentb_vs_time_q = """
 SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB', 
 DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
 FROM network 
-ORDER by updated DESC LIMIT 10;"""
+ORDER by updated DESC LIMIT 7;
+"""
 sentb_vs_time_title = 'Sent MB over network interfaces'
 sentb_vs_time_ylable = 'Megabytes'
 sentb_vs_time_xlable = 'Date and time'
@@ -169,26 +171,27 @@ resvb_vs_time_q = """
 SELECT ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB', 
 DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
 FROM network 
-ORDER by updated DESC LIMIT 10;"""
+ORDER by updated DESC LIMIT 7;
+"""
 resvb_vs_time_title = 'Received MB over network interfaces'
 resvb_vs_time_ylable = 'Megabytes'
 resvb_vs_time_xlable = 'Date and time'
 
 coretemp_vs_time_q = """
-SELECT coretemp, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 10;"""
+SELECT coretemp, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 7;"""
 coretemp_vs_time_title = 'Average core temperature'
 coretemp_vs_time_ylable = 'Temperature'
 coretemp_vs_time_xlable = 'Date and time'
 
 cpu_freq_vs_time_q = """
-SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 10;
+SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 7;
 """
 cpu_freq_vs_time_title = 'CPU frequency'
 cpu_freq_vs_time_ylable = 'Hz'
 cpu_freq_vs_time_xlable = 'Date and time'
 
 cpu_usage_t_vs_time_q = """
-SELECT cpu_usage_t, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 10;
+SELECT cpu_usage_t, DATE_FORMAT(updated, '%Y-%m-%d  %T') FROM cpu ORDER BY updated DESC LIMIT 7;
 """
 cpu_usage_t_vs_time_title = 'CPU load'
 cpu_usage_t_vs_time_ylable = "% from 100"
@@ -517,4 +520,136 @@ WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
 ORDER BY updated
 DESC LIMIT 10;
+"""
+
+######################################
+#       Date searching 
+#               SQL part \ User input
+#
+######################################
+        # tables 
+
+cpu_user_date_q = """
+SELECT ROUND(cur_freq) , cpu_usage_t, updated
+FROM cpu 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+cpu_history_usr = """
+SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
+cpu_usage_t as 'CPU load % ', 
+updated as 'DATE' 
+FROM cpu 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10;
+"""
+
+ram_history_usr = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
+ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
+updated as 'DATE' 
+FROM ram 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10;
+"""
+disk_history_usr = """
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
+ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB',
+ROUND(d_used / 1024 / 1024 / 1024, 2) as 'Disk used in GB',
+updated as 'Date'
+FROM disk
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10;
+"""
+net_history_usr = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
+ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM network 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10;
+"""
+        # graphs 
+cpu_usage_t_vs_time_usr = """
+SELECT cpu_usage_t, DATE_FORMAT(updated, '%Y-%m-%d  %T') 
+FROM cpu 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10;
+"""
+
+cpu_freq_vs_time_usr = """
+SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d  %T') 
+FROM cpu 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10;
+"""
+
+coretemp_vs_time_usr = """
+SELECT coretemp, DATE_FORMAT(updated, '%Y-%m-%d  %T') 
+FROM cpu 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+resvb_vs_time_usr = """
+SELECT ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM network 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+sentb_vs_time_usr = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM network 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+rio_vs_time_usr = """
+SELECT ROUND(read_io / 1024 / 1024, 2) as 'Read I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM disk 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+wio_vs_time_usr = """
+SELECT ROUND(write_io / 1024 / 1024, 2) as 'Write I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM disk 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+swap_vs_time_usr = """
+SELECT ROUND(swap_used / 1024 / 1024, 2) as 'Used SWAP in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM ram 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
+"""
+
+ram_vs_time_usr = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d  %T') as 'DATE' 
+FROM ram 
+WHERE update LIKE '% %s %'
+ORDER by updated 
+DESC LIMIT 10
 """

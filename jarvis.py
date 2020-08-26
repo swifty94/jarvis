@@ -147,11 +147,59 @@ def cpu_stats():
   finally:
     logging.info('JARVIS: HTTP request for /cpu_stats STATUS: 200 OK \n')
 
-@app.route('/cpu_history')
-def cpu_history():
+@app.route('/cpu_ondate')
+def cpu_ondate():
   if request.method == 'POST':
-        date = request.form['date']
-        date_f = datetime.strptime(date, '%Y-%m-%d').strftime('%d.%m.%Y')
+        data = request.form['date']
+        user_date = datetime.strptime(data, '%Y-%m-%d').strftime('%d.%m.%Y')   
+        cpu_table_created = check_date(cpu_user_date_q, user_date)
+        coretemp = _pool.apply_async(param_vs_time_grap, (coretemp_vs_time_usr, coretemp_vs_time_title, coretemp_vs_time_ylable, coretemp_vs_time_xlable, ))
+        cpu_usage_vs_time = _pool.apply_async(param_vs_time_graph, (cpu_usage_t_vs_time_usr, cpu_usage_t_vs_time_title, cpu_usage_t_vs_time_ylable, cpu_usage_t_vs_time_xlable, ))
+        cpu_freq_vs_time = _pool.apply_async(param_vs_time_graph, (cpu_freq_vs_time_usr, cpu_freq_vs_time_title, cpu_freq_vs_time_ylable, cpu_freq_vs_time_xlable, ))
+        cpu = _pool.apply_async(pie_for_two, (cpu_q, cpu_label, cpu_title, ))
+        try:
+          logging.info('JARVIS: /cpu_stats -> cpu_ondate() -> parsing using \n')
+          return render_template('cpu_stats.html', cpu_table_created=cpu_table_created, coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), cpu=cpu.get())
+        except Exception as e:
+          logging.error('JARVIS: FAILED to process HTTP request for /cpu_stats -> cpu_ondate() STATUS: 500 Internal Server Error \n')
+          logging.error(f'JARVIS: caught exception [ {e} ]')
+          logging.error('JARVIS: Full trace: \n', exc_info=1)
+        finally:
+          logging.info('JARVIS: HTTP request for /cpu_stats -> cpu_ondate() PROCESSED: 200 OK \n')
+
+@app.route('/cpu_week')
+def cpu_week():
+  coretemp = _pool.apply_async(param_vs_time_graph, (coretemp_vs_time_w, coretemp_vs_time_title, coretemp_vs_time_ylable, coretemp_vs_time_xlable, ))
+  cpu_usage_vs_time = _pool.apply_async(param_vs_time_graph, (cpu_usage_t_vs_time_w, cpu_usage_t_vs_time_title, cpu_usage_t_vs_time_ylable, cpu_usage_t_vs_time_xlable, ))
+  cpu_freq_vs_time = _pool.apply_async(param_vs_time_graph, (cpu_freq_vs_time_w, cpu_freq_vs_time_title, cpu_freq_vs_time_ylable, cpu_freq_vs_time_xlable, ))
+  cpu = _pool.apply_async(pie_for_two, (cpu_q, cpu_label, cpu_title, ))
+  cpu_table_created = get_sql_data(cpu_history_w)
+  try:
+    logging.info('JARVIS: /cpu_stats -> cpu_week() -> weekly report generation... \n')
+    return render_template('cpu_stats.html', cpu_table_created=cpu_table_created, coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), cpu=cpu.get())
+  except Exception as e:
+    logging.error('JARVIS: FAILED to process HTTP request for weekly report generation \n STATUS: 500 Internal Server Error \n')
+    logging.error(f'JARVIS: caught exception [ {e} ]')
+    logging.error('JARVIS: Full trace: \n', exc_info=1)
+  finally:
+    logging.info('JARVIS: /cpu_stats -> cpu_week() -> report generation STATUS: 200 OK \n')
+
+@app.route('/cpu_month')
+def cpu_month():
+  coretemp = _pool.apply_async(param_vs_time_graph, (coretemp_vs_time_m, coretemp_vs_time_title, coretemp_vs_time_ylable, coretemp_vs_time_xlable, ))
+  cpu_usage_vs_time = _pool.apply_async(param_vs_time_graph, (cpu_usage_t_vs_time_m, cpu_usage_t_vs_time_title, cpu_usage_t_vs_time_ylable, cpu_usage_t_vs_time_xlable, ))
+  cpu_freq_vs_time = _pool.apply_async(param_vs_time_graph, (cpu_freq_vs_time_m, cpu_freq_vs_time_title, cpu_freq_vs_time_ylable, cpu_freq_vs_time_xlable, ))
+  cpu = _pool.apply_async(pie_for_two, (cpu_q, cpu_label, cpu_title, ))
+  cpu_table_created = get_sql_data(cpu_history_m)
+  try:
+    logging.info('JARVIS: /cpu_stats -> cpu_month() -> monthly report generation... \n')
+    return render_template('cpu_stats.html', cpu_table_created=cpu_table_created, coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), cpu=cpu.get())
+  except Exception as e:
+    logging.error('JARVIS: FAILED to process HTTP request for monthly report generation \n STATUS: 500 Internal Server Error \n')
+    logging.error(f'JARVIS: caught exception [ {e} ]')
+    logging.error('JARVIS: Full trace: \n', exc_info=1)
+  finally:
+    logging.info('JARVIS: /cpu_stats -> cpu_month() -> monthly report generation STATUS: 200 OK \n')
 
 @app.route('/ram_stats', methods=['POST', 'GET'])
 def ram_stats():

@@ -92,6 +92,31 @@ def get_sql_fetchone(sql):
         cursor.close()
 
 
+def check_date(query, params=()):
+    """
+    Function accepting sql query from sql_stings.py and parameters to SELECT from system_data.py \n
+    Fetching inser input date in YYYY-MM-DD format \n
+
+    Example: \n
+    
+    check_date(your_sql_query, (param_1, param_2, param_x))
+    """
+    try:
+        mydb = mysql.connector.connect(**dbconfig)
+        cursor = mydb.cursor()
+        cursor.execute(query, (params))
+        mydb.commit()
+        logging.info('JARVIS INFO: sql_worker() -> check_date() \n')
+        logging.info(f'JARVIS INFO: check_date() query used: {query} \n')
+    except Exception as e:
+        logging.error(f'JARVIS: Caught exception in sql_worker() -> check_date() [ {e} ] \n')
+        logging.error('JARVIS: Full trace: \n', exc_info=1)
+        mydb.close()
+        cursor.close()
+    finally:
+        cursor.close()
+        mydb.close()
+
 def pie_for_three(sql, labels, title):
     """
     Function for creating matplotlib pie chart with 3 slices

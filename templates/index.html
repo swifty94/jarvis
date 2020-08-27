@@ -3,13 +3,13 @@
 <div class="w3-row-padding w3-margin-bottom">
   <div class="w3-quarter">
     <div class="w3-container w3-light-blue w3-padding-16">
-      {% for cpu_usage_t, cur_freq, used_mem, swap_used in header_result1 %}
+      {% for cpu_percent, cur_freq, used_mem, swap_used in header_result1 %}
       <div class="w3-left"><i class="fa w3-xxxlarge"></i></div>
         <div class="w3-center">
-          <h3>{{ cpu_usage_t }}</h3>
+          <h3>{{ cpu_percent }}</h3>
         </div>
         <div class="w3-clear">
-        <h5>CPU load average, %</h4>
+        <h5>CPU usage, %</h4>
         </div>
       </div>
     </div>
@@ -90,12 +90,22 @@
   </div>
   {% endfor %}
 <div class="w3-panel">
-  <img class="w3-half w3-center" src="data:image/png;base64, {{ cpu }}"  width="100%">
-  <img class="w3-half w3-center" src="data:image/png;base64, {{ disk }}"  width="100%">
-  <img class="w3-half w3-center" src="data:image/png;base64, {{ ram }}" width="100%">
-  <img class="w3-half w3-center" src="data:image/png;base64, {{ swap }}"  width="100%">
-  <img class="w3-half w3-center" src="data:image/png;base64, {{ net_p }}"  width="100%">
-  <img class="w3-half w3-center" src="data:image/png;base64, {{ net_mb }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ loadavg }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ cpu_usage_vs_time }}" width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ coretemp }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ swap_free_vs_time }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ ram_free_vs_time }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ swap_vs_time }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ ram_vs_time }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ disk_free }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ disk_used }}"  width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ disk_w }}" width="100%">
+  <img class="w3-half w3-center" src="data:image/png;base64, {{ disk_r }}"  width="100%">
+  <img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ sentb_vs_time }}"  width="100%">
+  <img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ resvb_vs_time }}"  width="100%">
+  <img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ sentp_vs_time }}" width="100%">
+  <img class="w3-half w3-image w3-center" src="data:image/png;base64, {{ resvp_vs_time }}"  width="100%">
 </div>
 
 

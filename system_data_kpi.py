@@ -20,7 +20,7 @@ def get_ram():
 def get_cpu():
     cpufreq = psutil.cpu_freq()
     cur_freq = cpufreq.current
-    cpu_usage_t = psutil.cpu_percent(interval=0.1)
+    cpu_percent = psutil.cpu_percent(interval=None)
     boot_r = psutil.boot_time()
     boot_h = datetime.fromtimestamp(boot_r)
     sensors_temp = psutil.sensors_temperatures()
@@ -29,7 +29,9 @@ def get_cpu():
     for x in coretemp_raw:
         temps.append(x[1])
     coretemp = round(sum(temps) / len(temps), 2)
-    return cur_freq, cpu_usage_t, coretemp, boot_h
+    loadavg = [x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][0]
+    return cur_freq, cpu_percent, coretemp, boot_h, loadavg
+
 
 # Disk data
 @performance

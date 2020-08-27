@@ -6,10 +6,12 @@
   <a href="/cpu_week">Weekly data</a>
   <a href="/cpu_month">Monthly data</a>
 </div>
-<img class="w3-half w3-center" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%">
-<img class="w3-half w3-center" src="data:image/png;base64, {{ cpu_usage_vs_time }}"  width="100%">
-<img class="w3-half w3-center" src="data:image/png;base64, {{ coretemp }}" width="100%">
-<img class="w3-half w3-center" src="data:image/png;base64, {{ loadavg }}"  width="100%">
+<br>
+  <img class="w3-row w3-center" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%" height="auto">
+  <img class="w3-row w3-center" src="data:image/png;base64, {{ cpu_usage_vs_time }}" width="100%" height="auto">
+  <img class="w3-row w3-center" src="data:image/png;base64, {{ coretemp }}" width="100%" height="auto">
+  <img class="w3-row w3-center" src="data:image/png;base64, {{ loadavg }}" width="100%" height="auto">
+<br>
 <table id="t01" style="width:100%">
   <tr>
     <th>CPU frequency</th>

@@ -68,31 +68,6 @@ def get_sql_data(sql):
             cursor.close()
 
 @performance
-def check_data(query, params=()):
-    """
-    Function accepting sql query from sql_stings.py and parameters to INSERT from system_data.py
-
-    Example: 
-    
-    check_data(your_sql_query, (param_1, param_2, param_x))
-    """
-    try:
-        mydb = mysql.connector.connect(**dbconfig)
-        cursor = mydb.cursor()
-        cursor.execute(query, (params))
-        mydb.commit()
-        logging.info('JARVIS INFO: visual_worker() -> check_data() \n')
-        logging.info(f'JARVIS INFO: check_data() query used: {query} \n')
-    except Exception as e:
-        logging.error(f'JARVIS: Caught exception in visual_worker() -> check_data() [ {e} ] \n')
-        logging.error('JARVIS: Full trace: \n', exc_info=1)
-        mydb.close()
-        cursor.close()
-    finally:
-        cursor.close()
-        mydb.close()
-
-@performance
 def get_sql_fetchone(sql):
     """
     Function for single row data fetch from the MySQL.
@@ -116,7 +91,7 @@ def get_sql_fetchone(sql):
         logging.error('JARVIS: Full trace: \n', exc_info=1)
         cursor.close()
 
-def param_vs_time_graph(sql, title, ylable, xlable):
+def param_vs_time_graph(sql, title, ylable):
     """
     Function for creating matplotlib plot chart with correlation between parameter and time
     Accepting sql query, labels, title and name.
@@ -137,12 +112,12 @@ def param_vs_time_graph(sql, title, ylable, xlable):
         time.append(item[1])
     dates = [dateutil.parser.parse(s) for s in time]
     plt.subplots_adjust(wspace=0.2, bottom=0.5)
+    plt.subplots(figsize=(10,3.5))
     plt.xticks(rotation=50)
     plt.title(title)
     plt.ylabel(ylable, fontsize=12)
-    plt.xlabel(xlable, fontsize=12)
     ax=plt.gca()
-    ax.tick_params(direction='out', length=6, width=2, color='r')
+    ax.tick_params(direction='out', length=3, width=1, color='r')
     ax.set_xticks(dates)
     xfmt = md.DateFormatter('%Y-%m-%d %H:%M:%S')
     ax.xaxis.set_major_formatter(xfmt)

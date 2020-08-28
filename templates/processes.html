@@ -6,15 +6,19 @@
     <tr>
       <th>Name</th>
       <th>Location</th> 
-      <th>CPU used</th>
+      <th>CPU % used</th>
       <th>RAM used</th>
     </tr>
     {% for a,b,c,d in result %}
     <tr>
       <td>{{ a }}</td>
       <td>{{ b }}</td>
-      {% if c > 50.0 %}
-        <td class="threshold-breach">{{ c }}</td>
+      {% if c <= 15.0 %}
+        <td class="threshold-breach-minor">{{ c }}</td>
+      {% elif c <= 30.0 %}
+        <td class="threshold-breach-major">{{ c }}</td>
+      {% elif c >= 70.0 %}
+        <td class="threshold-breach-critical">{{ c }}</td>
       {% else %}
         <td>{{ c }}</td>
       {% endif %}

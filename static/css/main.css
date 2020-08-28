@@ -11,25 +11,57 @@ th, td {
   padding: 15px;
   text-align: left;
 }
+th {
+  background-color: #c0c1c2;
+}
 #t01 {
   width: 100%; 
   table-layout: fixed;   
   background-color: #ffffff;
   color: black;
 }
-.threshold-breach { 
-  background-color: #ffb5b5;
+.threshold-breach-minor { 
+  background-color: #c0ffb5;
+}
+.threshold-breach-major { 
+  background-color: #f7ff9c;
+}
+.threshold-breach-critical { 
+  background-color: #ffbfb5;
 }
 
-.button {
-  border: none;
-  color: white;
-  padding: 15px 32px;
+.topnav {
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  background-color:#4d4e4f;
   text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 10px 5px;
-  cursor: pointer;
-  background-color: #4CAF50;
+}
+
+.topnav a {
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+.topnav a.active {
+    background-color: #4a91c2;
+    color: white;
+}
+
+.graph-img {
+  height: auto;
+  width: 100%; 
+}
+
+.graph-container {
+  height: auto;
+  width: 100%; 
 }

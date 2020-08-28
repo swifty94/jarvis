@@ -2,8 +2,10 @@ import psutil
 import platform
 import time
 from datetime import datetime
+from visual_worker import performance
 
 #   RAM data
+@performance
 def get_ram():
     svmem = psutil.virtual_memory()
     swap = psutil.swap_memory()
@@ -14,10 +16,11 @@ def get_ram():
     return swap_used, swap_free, avail_mem, used_mem
 
 # CPU data
+@performance
 def get_cpu():
     cpufreq = psutil.cpu_freq()
     cur_freq = cpufreq.current
-    cpu_usage_t = psutil.cpu_percent(interval=0.1)
+    cpu_percent = psutil.cpu_percent(interval=None)
     boot_r = psutil.boot_time()
     boot_h = datetime.fromtimestamp(boot_r)
     sensors_temp = psutil.sensors_temperatures()
@@ -26,9 +29,12 @@ def get_cpu():
     for x in coretemp_raw:
         temps.append(x[1])
     coretemp = round(sum(temps) / len(temps), 2)
-    return cur_freq, cpu_usage_t, coretemp, boot_h
+    loadavg = [x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][0]
+    return cur_freq, cpu_percent, coretemp, boot_h, loadavg
+
 
 # Disk data
+@performance
 def get_disk():
     d = psutil.disk_usage('/')
     d_used = d.used
@@ -39,6 +45,7 @@ def get_disk():
     return d_used, d_free, read_io, write_io
 
 # Network data
+@performance
 def get_net():
     net_io = psutil.net_io_counters()
     sent_b = net_io.bytes_sent
@@ -48,6 +55,7 @@ def get_net():
     return sent_b, sent_p, recv_b, recv_p
 
 # General system data
+@performance
 def get_sys():
     d = psutil.disk_usage('/')
     svmem = psutil.virtual_memory()

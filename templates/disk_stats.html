@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="w3-third">
-  <img class="w3-image" src="data:image/png;base64, {{ disk }}">
+<h3 class="w3-center">Date filter</h3>
+<div class="topnav">
+  <a class="active" href="/disk_stats">Latest from today (default)</a>
+  <a href="/disk_week">Weekly data</a>
+  <a href="/disk_month">Monthly data</a>
 </div>
-<div class="w3-third">
-  <img class="w3-image" src="data:image/png;base64, {{ disk_w }}">
-</div>
-<div class="w3-third">
-  <img class="w3-image" src="data:image/png;base64, {{ disk_r }}">
-</div>
+<img class="w3-row w3-center" src="data:image/png;base64, {{ disk_free }}"  width="100%" height="auto">
+<img class="w3-row w3-center" src="data:image/png;base64, {{ disk_used }}"  width="100%" height="auto">
+<img class="w3-row w3-center" src="data:image/png;base64, {{ disk_w }}" width="100%" height="auto">
+<img class="w3-row w3-center" src="data:image/png;base64, {{ disk_r }}"  width="100%" height="auto">
 <table id="t01" style="width:100%">
   <tr>
     <th>Write I/O on hard drive in GB</th>

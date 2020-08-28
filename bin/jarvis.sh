@@ -5,7 +5,7 @@
 #
 ###########################################
 
-export JARVIS_HOME=/home/master/Dev/jarvis_1.0.2
+export JARVIS_HOME=/home/master/Dev/jarvis_master
 
 start() {
         export now=`date +%m_%d_%H:%M:%S`
@@ -45,7 +45,7 @@ start() {
                 echo ''
                 echo 'Jarvis server: You can check the GUI via:'
                 echo ''
-                echo "http://your_domain_or_ip_address:8080/"
+                echo "http://your_domain_or_ip_address:5000/"
         else    
                 cd $JARVIS_HOME
                 echo "Jarvis server: Virtual environment NOT FOUND!"
@@ -86,7 +86,7 @@ start() {
                 echo ''
                 echo 'Jarvis server: You can check the GUI via:'
                 echo ''
-                echo "http://your_domain_or_ip_address:8080/"
+                echo "http://your_domain_or_ip_address:5000/"
                 
         fi
 }

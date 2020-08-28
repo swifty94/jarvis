@@ -1,0 +1,19 @@
+TODO:
+	Views changes:
+- Disk: write, read, used, available with time ++
+- Network: sent\received packets\gb with time ++
+- RAM: ram/swap used/available with time ++
+- CPU: frequency, load, temperature, avg.load vs time ++
+- Dashboard: cpu, network, ram, disk ++
+
+- DB > cpu > add column loadavg ++
+- Code: 
+implemet function to get kpi vulue, e.g: ++
+
+- adjusted insert, create select ++
+- remove creating pies ++
+- change queries to create graphs ++
+- adjust async creating in routes ++
+- verify relevant tags in jinja ++
+- date sorting ++
+- if success >  basic checks ok > git 

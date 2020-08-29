@@ -90,6 +90,7 @@ def header_data():
     header_result2 = get_sql_data(header_q2)
     sysinfo_result1 = get_sql_data(sysinfo_q1)
     sysinfo_result2 = get_sql_data(sysinfo_q2)
+    logging.info('JARVIS:  Jinja template cache refreshed \n')
     return dict(header_result1=header_result1, header_result2=header_result2, sysinfo_result1=sysinfo_result1, sysinfo_result2=sysinfo_result2)
 
 @app.route('/', methods=['POST', 'GET'])
@@ -118,7 +119,7 @@ def index():
       logging.error(f'JARVIS: caught exception [ {e} ]')
       logging.error('JARVIS: Full trace: \n', exc_info=1)
     finally:
-      logging.info('JARVIS: HTTP request for "/" STATUS: 200 OK \n')
+      logging.info('JARVIS: HTTP request for "/" DONE. Session closed \n')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
@@ -139,14 +140,14 @@ def dashboard():
     sentp_vs_time = _pool.apply_async(param_vs_time_graph, (net_sent_p_q, net_sent_vs_time_title, net_sent_vs_time_ylable, ))
     resvp_vs_time = _pool.apply_async(param_vs_time_graph, (net_resv_q, net_resv_vs_time_title, net_resv_vs_time_ylable, ))
     try:
-      logging.info('JARVIS: received HTTP request for "/" \n')
+      logging.info('JARVIS: received HTTP request for /dashboard \n')
       return render_template('index.html', ram_vs_time=ram_vs_time.get(), swap_vs_time=swap_vs_time.get(), ram_free_vs_time=ram_free_vs_time.get(), swap_free_vs_time=swap_free_vs_time.get(), coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), loadavg=loadavg.get(), disk_free=disk_free.get(), disk_used=disk_used.get(), disk_w=disk_w.get(), disk_r=disk_r.get(), sentb_vs_time=sentb_vs_time.get(), resvb_vs_time=resvb_vs_time.get(), sentp_vs_time=sentp_vs_time.get(), resvp_vs_time=resvp_vs_time.get())
     except Exception as e:
       logging.error('JARVIS: FAILED to process HTTP request for /dashboard STATUS: 500 Internal Server Error \n')
       logging.error(f'JARVIS: caught exception [ {e} ]')
       logging.error('JARVIS: Full trace: \n', exc_info=1)
     finally:
-      logging.info('JARVIS: HTTP request for /dashboard STATUS: 200 OK \n')
+      logging.info('JARVIS: HTTP request for /dashboard DONE. Session closed \n')
 
 @app.route('/cpu_stats', methods=['POST', 'GET'])
 def cpu_stats():
@@ -163,7 +164,7 @@ def cpu_stats():
     logging.error(f'JARVIS: caught exception [ {e} ]')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: HTTP request for /cpu_stats STATUS: 200 OK \n')
+    logging.info('JARVIS: HTTP request for /cpu_stats DONE. Session closed \n')
 
 @app.route('/cpu_week', methods=['POST', 'GET'])
 def cpu_week():
@@ -180,7 +181,7 @@ def cpu_week():
     logging.error(f'JARVIS: caught exception [ {e} ]')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /cpu_stats -> cpu_week() -> report generation STATUS: 200 OK \n')
+    logging.info('JARVIS: /cpu_stats -> cpu_week() -> report generation DONE. Session closed \n')
 
 @app.route('/cpu_month', methods=['POST', 'GET'])
 def cpu_month():
@@ -197,7 +198,7 @@ def cpu_month():
     logging.error(f'JARVIS: caught exception [ {e} ]')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /cpu_stats -> cpu_month() -> monthly report generation STATUS: 200 OK \n')
+    logging.info('JARVIS: /cpu_stats -> cpu_month() -> monthly report generation DONE. Session closed \n')
 
 @app.route('/ram_stats', methods=['POST', 'GET'])
 def ram_stats():
@@ -214,7 +215,7 @@ def ram_stats():
     logging.error(f'JARVIS: caught exception [ {e} ]')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: HTTP request for /ram_stats STATUS:\n', exc_info=1)
+    logging.info('JARVIS: HTTP request for /ram_stats DONE. Session closed \n')
 
 @app.route('/ram_week', methods=['POST', 'GET'])
 def ram_week():
@@ -231,7 +232,7 @@ def ram_week():
     logging.error(f'JARVIS: caught exception [ {e} ]')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /ram_stats -> ram_week() -> report generation STATUS: 200 OK \n')
+    logging.info('JARVIS: /ram_stats -> ram_week() -> report generation DONE. Session closed \n')
 
 @app.route('/ram_month', methods=['POST', 'GET'])
 def ram_month():
@@ -248,7 +249,7 @@ def ram_month():
     logging.error(f'JARVIS: caught exception [ {e} ]')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /ram_stats -> ram_month() -> monthly report generation STATUS: 200 OK \n')
+    logging.info('JARVIS: /ram_stats -> ram_month() -> monthly report generation DONE. Session closed \n')
 
 @app.route('/disk_stats', methods=['POST', 'GET'])
 def disk_stats():
@@ -265,7 +266,7 @@ def disk_stats():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: HTTP request for /disk_stats STATUS: 200 OK \n')
+    logging.info('JARVIS: HTTP request for /disk_stats DONE. Session closed \n')
 
 @app.route('/disk_week', methods=['POST', 'GET'])
 def disk_week():
@@ -282,7 +283,7 @@ def disk_week():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /disk_stats -> disk_week() -> weekly report generation STATUS: 200 OK \n')
+    logging.info('JARVIS: /disk_stats -> disk_week() -> weekly report generation DONE. Session closed \n')
 
 @app.route('/disk_month', methods=['POST', 'GET'])
 def disk_month():
@@ -299,7 +300,7 @@ def disk_month():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /disk_stats -> disk_month() -> monthly report generation STATUS: 200 OK \n')
+    logging.info('JARVIS: /disk_stats -> disk_month() -> monthly report generation DONE. Session closed \n')
 
 @app.route('/net_stats', methods=['POST', 'GET'])
 def net_stats():
@@ -316,7 +317,7 @@ def net_stats():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: HTTP request for /net_stats STATUS: 200 OK \n')
+    logging.info('JARVIS: HTTP request for /net_stats DONE. Session closed \n')
 
 
 @app.route('/net_week', methods=['POST', 'GET'])
@@ -334,7 +335,7 @@ def net_week():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /net_stats -> net_week() -> weekly report generation STATUS  \n', exc_info=1)
+    logging.info('JARVIS: /net_stats -> net_week() -> weekly report generation DONE. Session closed \n')
 
 
 @app.route('/net_month', methods=['POST', 'GET'])
@@ -352,7 +353,7 @@ def net_month():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: /net_stats -> net_month() -> monthly report generation STATUS  \n', exc_info=1)
+    logging.info('JARVIS: /net_stats -> net_month() -> monthly report generation DONE. Session closed \n')
 
 
 @app.route('/processes', methods=['POST', 'GET'])
@@ -366,18 +367,21 @@ def processes():
     logging.error(f'JARVIS: caught exception [ {e} ] \n')
     logging.error('JARVIS: Full trace: \n', exc_info=1)
   finally:
-    logging.info('JARVIS: HTTP request for /processes STATUS: 200 OK \n')
+    logging.info('JARVIS: HTTP request for /processes DONE. Session closed \n')
 
 if __name__ == "__main__":
     try:
-      _pool = Pool(processes=5)
+      _pool = Pool(processes=10)
       logging.info('========= JARVIS SERVER START ============= \n')
+      logging.info('========= JARVIS Pool Initialized ============= \n')
       serve(app, host='0.0.0.0', port=5000)
     except OSError as ose:
       logging.error('======== FAIL ========')
       logging.error(f'======== JARVIS: Caught exception [ {ose} ] ======== \n')
+      logging.info('========= JARVIS Pool Initialization FAILED ============= \n')
       logging.error('JARVIS: Full trace: \n', exc_info=1)
     except Exception as e:
       logging.error('======== FAIL ======== \n')
       logging.error(f'======== JARVIS: Caught exception [ {e} ] ======== \n')
+      logging.info('========= JARVIS Pool Initialization FAILED ============= \n')
       logging.error('JARVIS: Full trace: \n', exc_info=1)

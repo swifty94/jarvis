@@ -1,0 +1,216 @@
+{
+  "id": "736abe21-2360-45d9-94dc-f57ce1a5efe9",
+  "version": "2.0",
+  "name": "Jarvis_UI_test",
+  "url": "http://win-dev.jarvis.com:5000",
+  "tests": [{
+    "id": "36b0e8b2-80ee-4c81-b457-3ebe8606f2f8",
+    "name": "Basic_UI_check",
+    "commands": [{
+      "id": "51c990c8-d359-47a2-8b88-a4baec56f0ad",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9cb51ea0-0525-4f5b-ba91-f47d1fc1d7e5",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1869x957",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9690ba3d-b8c2-4c79-b88d-fbbe023abc6c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Dashboard",
+      "targets": [
+        ["linkText=Dashboard", "linkText"],
+        ["css=.w3-bar-item:nth-child(1)", "css:finder"],
+        ["xpath=//a[contains(text(),'Dashboard')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/dashboard')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Dashboard')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f159c7ea-f82a-4346-abf6-55205124fb3c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=CPU stats",
+      "targets": [
+        ["linkText=CPU stats", "linkText"],
+        ["css=.w3-bar-item:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'CPU stats')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/cpu_stats')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'CPU stats')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "da24d37c-3c4a-40b5-8975-fb9bf90ca647",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Weekly data",
+      "targets": [
+        ["linkText=Weekly data", "linkText"],
+        ["css=.topnav > a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Weekly data')]", "xpath:link"],
+        ["xpath=//div[@id='Main']/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/cpu_week')]", "xpath:href"],
+        ["xpath=//div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Weekly data')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0fb3f74c-8825-4329-92c3-5088a4d9264b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Monthly data",
+      "targets": [
+        ["linkText=Monthly data", "linkText"],
+        ["css=.topnav > a:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'Monthly data')]", "xpath:link"],
+        ["xpath=//div[@id='Main']/div/a[3]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/cpu_month')]", "xpath:href"],
+        ["xpath=//div/div/a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'Monthly data')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "713d100a-d076-4215-aa64-89a821d75cd0",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=RAM stats",
+      "targets": [
+        ["linkText=RAM stats", "linkText"],
+        ["css=.w3-bar-item:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'RAM stats')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/ram_stats')]", "xpath:href"],
+        ["xpath=//a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'RAM stats')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d5d900db-9202-4474-94f9-4319490f6dbe",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Weekly data",
+      "targets": [
+        ["linkText=Weekly data", "linkText"],
+        ["css=.topnav > a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Weekly data')]", "xpath:link"],
+        ["xpath=//div[@id='Main']/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/ram_week')]", "xpath:href"],
+        ["xpath=//div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Weekly data')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "52303561-9946-4573-b18f-fcba632f729d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Monthly data",
+      "targets": [
+        ["linkText=Monthly data", "linkText"],
+        ["css=.topnav > a:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'Monthly data')]", "xpath:link"],
+        ["xpath=//div[@id='Main']/div/a[3]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/ram_month')]", "xpath:href"],
+        ["xpath=//div/div/a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'Monthly data')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6591d352-e9ec-4273-9380-956f9ce92d56",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Disk stats",
+      "targets": [
+        ["linkText=Disk stats", "linkText"],
+        ["css=.w3-bar-item:nth-child(4)", "css:finder"],
+        ["xpath=//a[contains(text(),'Disk stats')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/disk_stats')]", "xpath:href"],
+        ["xpath=//a[4]", "xpath:position"],
+        ["xpath=//a[contains(.,'Disk stats')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ead195c7-55eb-4aa6-88f8-889b90c074e4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Weekly data",
+      "targets": [
+        ["linkText=Weekly data", "linkText"],
+        ["css=.topnav > a:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Weekly data')]", "xpath:link"],
+        ["xpath=//div[@id='Main']/div/a[2]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/disk_week')]", "xpath:href"],
+        ["xpath=//div/div/a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Weekly data')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d109de23-3aef-4568-9533-cf59b3597680",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Monthly data",
+      "targets": [
+        ["linkText=Monthly data", "linkText"],
+        ["css=.topnav > a:nth-child(3)", "css:finder"],
+        ["xpath=//a[contains(text(),'Monthly data')]", "xpath:link"],
+        ["xpath=//div[@id='Main']/div/a[3]", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/disk_month')]", "xpath:href"],
+        ["xpath=//div/div/a[3]", "xpath:position"],
+        ["xpath=//a[contains(.,'Monthly data')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d6bd2cd-1865-4cf9-a3e8-ff41adab768b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Network stats",
+      "targets": [
+        ["linkText=Network stats", "linkText"],
+        ["css=.w3-bar-item:nth-child(5)", "css:finder"],
+        ["xpath=//a[contains(text(),'Network stats')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/net_stats')]", "xpath:href"],
+        ["xpath=//a[5]", "xpath:position"],
+        ["xpath=//a[contains(.,'Network stats')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5152cffe-619f-4ffa-8f55-852cfd7669b4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Processes",
+      "targets": [
+        ["linkText=Processes", "linkText"],
+        ["css=.w3-bar-item:nth-child(6)", "css:finder"],
+        ["xpath=//a[contains(text(),'Processes')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/processes')]", "xpath:href"],
+        ["xpath=//a[6]", "xpath:position"],
+        ["xpath=//a[contains(.,'Processes')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d3aa04fb-b5a4-49f8-ab66-d40a86dad493",
+      "comment": "",
+      "command": "close",
+      "target": "",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "39022a52-d12c-42f9-823a-57419d32c89e",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["36b0e8b2-80ee-4c81-b457-3ebe8606f2f8"]
+  }],
+  "urls": ["http://win-dev.jarvis.com:5000/"],
+  "plugins": []
+}

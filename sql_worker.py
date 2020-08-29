@@ -64,9 +64,9 @@ if __name__ == '__main__':
             insert_data(disk_insert, (read_io, write_io, d_used, d_free))
             insert_data(net_insert, (sent_b, sent_p, recv_b, recv_p))
             logging.info('JARVIS INFO: sql_worker -> main() End DB update \n')
-            time.sleep(300)
+            time.sleep(60)
         except Exception as e:
             logging.error('JARVIS INFO: sql_worker -> main() DB update failed! \n')
             logging.error(f'JARVIS: Caught exception:  {e}  \n')
             logging.error('JARVIS: Full trace: \n', exc_info=1)
-            time.sleep(300)
+            time.sleep(60)

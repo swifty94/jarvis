@@ -1,0 +1,350 @@
+2020-08-28 17:29:21,138  INFO :  JARVIS INFO: sql_worker -> call system_data() 
+
+2020-08-28 17:29:21,139  INFO :  JARVIS INFO: system_data_kpi -> KPI cache refresh START 
+
+2020-08-28 17:29:21,139  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sys', 'Time, sec': 0.0} 
+
+2020-08-28 17:29:21,139  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_ram', 'Time, sec': 0.0} 
+
+2020-08-28 17:29:21,290  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_cpu', 'Time, sec': 0.1512} 
+
+2020-08-28 17:29:21,290  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_disk', 'Time, sec': 0.0} 
+
+2020-08-28 17:29:21,315  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_net', 'Time, sec': 0.0239} 
+
+2020-08-28 17:29:21,315  INFO :  JARVIS INFO: system_data_kpi -> KPI cache refresh END 
+
+2020-08-28 17:29:21,315  INFO :  JARVIS INFO: sql_worker -> main() Begin DB update 
+
+2020-08-28 17:29:21,367  INFO :  JARVIS INFO: sql_worker() -> insert_data() 
+
+2020-08-28 17:29:21,367  INFO :  JARVIS INFO: insert_data() query used: 
+REPLACE INTO sysinfo
+SET id = 1,
+osname = %s,
+nodename = %s,
+version = %s,
+osarch = %s,
+cpuarch = %s,
+cores_ph = %s, 
+cores_t = %s,
+max_freq = %s, 
+min_freq = %s, 
+total_mem = %s, 
+swap_total = %s, 
+d_total = %s
+ 
+
+2020-08-28 17:29:21,368  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'insert_data', 'Time, sec': 0.0526} 
+
+2020-08-28 17:29:21,426  INFO :  JARVIS INFO: sql_worker() -> insert_data() 
+
+2020-08-28 17:29:21,426  INFO :  JARVIS INFO: insert_data() query used: INSERT INTO ram (avail_mem, used_mem, swap_used, swap_free) 
+VALUES (%s, %s, %s, %s) 
+
+2020-08-28 17:29:21,427  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'insert_data', 'Time, sec': 0.0593} 
+
+2020-08-28 17:29:21,466  INFO :  JARVIS INFO: sql_worker() -> insert_data() 
+
+2020-08-28 17:29:21,466  INFO :  JARVIS INFO: insert_data() query used: INSERT INTO cpu (cur_freq, cpu_percent, coretemp, boot, load_avg) 
+VALUES (%s, %s, %s, %s, %s) 
+
+2020-08-28 17:29:21,467  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'insert_data', 'Time, sec': 0.0402} 
+
+2020-08-28 17:29:21,511  INFO :  JARVIS INFO: sql_worker() -> insert_data() 
+
+2020-08-28 17:29:21,512  INFO :  JARVIS INFO: insert_data() query used: INSERT INTO disk (read_io, write_io, d_used, d_free) 
+VALUES (%s, %s, %s, %s) 
+
+2020-08-28 17:29:21,513  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'insert_data', 'Time, sec': 0.0459} 
+
+2020-08-28 17:29:21,560  INFO :  JARVIS INFO: sql_worker() -> insert_data() 
+
+2020-08-28 17:29:21,560  INFO :  JARVIS INFO: insert_data() query used: INSERT INTO network (sent_b, sent_p, recv_b, recv_p) 
+VALUES (%s, %s, %s, %s) 
+
+2020-08-28 17:29:21,561  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'insert_data', 'Time, sec': 0.0479} 
+
+2020-08-28 17:29:21,561  INFO :  JARVIS INFO: sql_worker -> main() End DB update 
+
+2020-08-28 17:29:22,577  INFO :  ========= JARVIS SERVER START ============= 
+
+2020-08-28 17:29:22,578  INFO :  ========= JARVIS Pool Initialized ============= 
+
+2020-08-28 17:29:41,083  INFO :  JARVIS: received HTTP request for /dashboard 
+
+2020-08-28 17:29:41,196  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(used_mem / 1024 / 1024 / 1024, 2) as 'Used RAM in GB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,198  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.1094} 
+
+2020-08-28 17:29:41,217  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT cpu_percent, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,218  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0996} 
+
+2020-08-28 17:29:41,274  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(swap_used / 1024 / 1024 / 1024, 2) as 'Used SWAP in GB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,276  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.1826} 
+
+2020-08-28 17:29:41,353  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(d_free / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,355  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.2305} 
+
+2020-08-28 17:29:41,388  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,389  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.2686} 
+
+2020-08-28 17:29:41,390  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(avail_mem / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,393  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.2969} 
+
+2020-08-28 17:29:41,422  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT cpu_percent, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,423  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.3008} 
+
+2020-08-28 17:29:41,482  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(swap_free / 1024 / 1024 / 1024, 2) Available_SWAP, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram
+ORDER by updated 
+DESC LIMIT 20; 
+
+2020-08-28 17:29:41,483  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.3838} 
+
+2020-08-28 17:29:41,487  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(d_used / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,489  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.3604} 
+
+2020-08-28 17:29:41,538  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT coretemp, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20; 
+
+2020-08-28 17:29:41,538  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.4219} 
+
+2020-08-28 17:29:41,886  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ SWAP usage ] plot graph 
+
+2020-08-28 17:29:41,982  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:41,983  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0371} 
+
+2020-08-28 17:29:42,211  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ CPU % usage ] plot graph 
+
+2020-08-28 17:29:42,239  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Write GB from hard drive ] plot graph 
+
+2020-08-28 17:29:42,303  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+FROM disk 
+ORDER by updated DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:42,305  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0439} 
+
+2020-08-28 17:29:42,341  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(sent_b / 1024 / 1024 / 1024, 2) as 'Sent over network in GB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+FROM network 
+ORDER by updated DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:42,342  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0615} 
+
+2020-08-28 17:29:42,646  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ CPU load avg. % ] plot graph 
+
+2020-08-28 17:29:42,680  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ CPU frequency ] plot graph 
+
+2020-08-28 17:29:42,781  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ RAM usage ] plot graph 
+
+2020-08-28 17:29:42,824  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Average core temperature ] plot graph 
+
+2020-08-28 17:29:42,839  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ RAM free ] plot graph 
+
+2020-08-28 17:29:42,861  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(recv_b / 1024 / 1024 / 1024, 2) as 'Received over network in GB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+FROM network 
+ORDER by updated DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:42,862  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0381} 
+
+2020-08-28 17:29:42,951  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT round(sent_p / 1000, 2) as packets_K,
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:42,952  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.043} 
+
+2020-08-28 17:29:43,008  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Free space ] plot graph 
+
+2020-08-28 17:29:43,022  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT round(recv_p / 1000, 2) as packets_K,
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+ORDER by updated 
+DESC LIMIT 20;
+ 
+
+2020-08-28 17:29:43,023  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0879} 
+
+2020-08-28 17:29:43,136  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ SWAP free ] plot graph 
+
+2020-08-28 17:29:43,205  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Sent GB over network interfaces ] plot graph 
+
+2020-08-28 17:29:43,236  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Sent packets over network, K ] plot graph 
+
+2020-08-28 17:29:43,284  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Read GB from hard drive ] plot graph 
+
+2020-08-28 17:29:43,377  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Occupied space ] plot graph 
+
+2020-08-28 17:29:43,418  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Received GB over network interfaces ] plot graph 
+
+2020-08-28 17:29:43,486  INFO :  JARVIS: visual_worker -> param_vs_time_graph() 
+ Created [ Received packets over network, K ] plot graph 
+
+2020-08-28 17:29:43,584  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT 
+ROUND((SUM(c.cpu_percent)) / (COUNT(c.id)), 2) as 'CPU avg %',
+ROUND((SUM(c.cur_freq)) / (COUNT(c.id)), 2) as 'CPU frequency avg in  GHz',
+ROUND((SUM(r.used_mem)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'RAM used avg in GB',
+ROUND((SUM(r.swap_used)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'SWAP used avg in GB'
+FROM cpu c, ram r; 
+
+2020-08-28 17:29:43,585  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0566} 
+
+2020-08-28 17:29:43,629  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT 
+ROUND((SUM(d.read_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Read I/O avg in GB',
+ROUND((SUM(d.write_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Write I/O avg in GB',
+ROUND((SUM(n.sent_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Sent avg in GB',
+ROUND((SUM(n.recv_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Received avg in GB'
+FROM disk d, network n; 
+
+2020-08-28 17:29:43,630  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0449} 
+
+2020-08-28 17:29:43,677  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT s.nodename, s.osname, s.osarch, s.cpuarch, c.boot FROM sysinfo s, cpu c ORDER BY c.updated DESC LIMIT 1; 
+
+2020-08-28 17:29:43,678  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.0479} 
+
+2020-08-28 17:29:43,719  INFO :  JARVIS: visual_worker -> get_sql_fetchone() 
+ SQL used  
+SELECT ROUND(d_total / 1024 / 1024 / 1024) as total_space, 
+ROUND(total_mem / 1024 / 1024 / 1024) as total_ram, 
+ROUND(swap_total / 1024 / 1024 / 1024) as total_swap, cores_ph, 
+cores_t, max_freq, min_freq 
+FROM sysinfo ; 
+
+2020-08-28 17:29:43,720  INFO :  JARVIS: @performace.wrapper() 
+ {'Function': 'get_sql_data', 'Time, sec': 0.042} 
+
+2020-08-28 17:29:43,720  INFO :  JARVIS:  Jinja template cache refreshed 
+
+2020-08-28 17:29:43,740  INFO :  JARVIS: HTTP request for /dashboard DONE. Session closed 
+

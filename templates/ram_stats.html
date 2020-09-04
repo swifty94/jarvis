@@ -2,9 +2,11 @@
 {% block content %}
 <h3 class="w3-center">Date filter</h3>
 <div class="topnav">
-  <a class="active" href="/ram_stats">Latest from today (default)</a>
-  <a href="/ram_week">Weekly data</a>
-  <a href="/ram_month">Monthly data</a>
+  <a class="active" href="/ram_stats">Today (default)</a>
+  <a href="/ram_week">This week</a>
+  <a href="/ram_month">This month</a>
+  <a href="/ram_week_prev">Previous week</a>
+  <a href="/ram_month_prev">Previous month</a>
 </div>
 <img class="w3-row w3-center" src="data:image/png;base64, {{ ram_free_vs_time }}"  width="100%" height="auto">
 <img class="w3-row w3-center" src="data:image/png;base64, {{ swap_free_vs_time }}" width="100%" height="auto">

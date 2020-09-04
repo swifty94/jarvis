@@ -5,7 +5,7 @@
 #
 ###########################################
 
-export JARVIS_HOME=/home/master/Dev/jarvis_master
+export JARVIS_HOME=/home/master/Dev/jarvis_master/
 
 start() {
         export now=`date +%m_%d_%H:%M:%S`
@@ -63,7 +63,7 @@ start() {
                 echo 'Jarvis server: DONE'
                 echo ''
                 echo "Jarvis server: Installing dependencies...Hold on"
-                venv/bin/pip3 install -r dependencies.txt > /dev/null 2> /dev/null && sleep 2
+                venv/bin/pip3 install -r modules.txt > /dev/null 2> /dev/null && sleep 2
                 echo "Jarvis server: DONE"
                 echo ''
                 venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &

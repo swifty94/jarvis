@@ -2,6 +2,7 @@ import matplotlib as mpl
 mpl.use ( 'Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as md
+from matplotlib.dates import MO, TU, WE, TH, FR, SA, SU
 import io
 import os
 import time
@@ -91,17 +92,17 @@ def get_sql_fetchone(sql):
         logging.error('JARVIS: Full trace: \n', exc_info=1)
         cursor.close()
 
-def param_vs_time_graph(sql, title, ylable):
+def single_kpi_now(sql, title, ylable):
     """
     Function for creating matplotlib plot chart with correlation between parameter and time
     Accepting sql query, labels, title and name.
     On call taking the variables defined in sql_stnings.py
 
-    Return the Base64 encoded image to Jinja2 template.
+    Return the Base64 encoded image rendered on fly to Jinja2 template.
 
     Example:
 
-    param_vs_time_graph(some_qeury, some_label, some_title, some_name)
+    single_kpi_now(some_qeury, some_label, some_title, some_name)
     """
     img = io.BytesIO()
     result = get_sql_data(sql)
@@ -118,18 +119,94 @@ def param_vs_time_graph(sql, title, ylable):
     plt.ylabel(ylable, fontsize=12)
     ax=plt.gca()
     ax.tick_params(direction='out', length=3, width=1, color='r')
-    ax.set_xticks(dates)
-    xfmt = md.DateFormatter('%Y-%m-%d %H:%M:%S')
+    xfmt = md.DateFormatter('%m-%d %H:%M')
     ax.xaxis.set_major_formatter(xfmt)
+    ax.xaxis.set_major_locator(md.MinuteLocator(interval=5))
     plt.plot(dates,param)
     plt.tight_layout()
     try:
         plt.savefig(img, format='png')
         param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info(f'JARVIS: visual_worker -> param_vs_time_graph() \n Created [ {title} ] plot graph \n')
+        logging.info(f'JARVIS: visual_worker -> single_kpi_now() \n Created [ {title} ] plot graph \n')
         plt.clf()
         return param_vs_time_graph
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker -> param_vs_time_graph() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS: FAILED to call visual_worker -> single_kpi_now() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
+
+
+def single_kpi_week(sql, title, ylable):
+    """
+    Inheriting main functionality from single_kpi_now() but with date formating and location
+    relevant for weekly statistics.
+
+    """
+    img = io.BytesIO()
+    result = get_sql_data(sql)
+    param = []
+    time = []
+    for item in result:
+        param.append(item[0])
+        time.append(item[1])
+    dates = [dateutil.parser.parse(s) for s in time]
+    plt.subplots_adjust(wspace=0.2, bottom=0.5)
+    plt.subplots(figsize=(10,3.5))
+    plt.xticks(rotation=50)
+    plt.title(title)
+    plt.ylabel(ylable, fontsize=12)
+    ax=plt.gca()
+    ax.tick_params(direction='out', length=3, width=1, color='r')
+    xfmt = md.DateFormatter('%m-%d %H:%M')
+    ax.xaxis.set_major_formatter(xfmt)
+    ax.xaxis.set_major_locator(md.WeekdayLocator(byweekday=(MO, TU, WE, TH, FR, SA, SU), interval=1))
+    plt.plot(dates,param)
+    plt.tight_layout()
+    try:
+        plt.savefig(img, format='png')
+        param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
+        img.seek(0)
+        logging.info(f'JARVIS: visual_worker -> single_kpi_week() \n Created [ {title} ] plot graph \n')
+        plt.clf()
+        return param_vs_time_graph
+    except Exception as e:
+        logging.error(f'JARVIS: FAILED to call visual_worker -> single_kpi_week() caught exception [ {e} ] \n')
+        logging.error('JARVIS: Full trace: \n', exc_info=1)
+
+def single_kpi_month(sql, title, ylable):
+    """
+    Inheriting main functionality from single_kpi_now() but with date formating and location
+    relevant for weekly statistics.
+
+    """
+    img = io.BytesIO()
+    result = get_sql_data(sql)
+    param = []
+    time = []
+    for item in result:
+        param.append(item[0])
+        time.append(item[1])
+    dates = [dateutil.parser.parse(s) for s in time]
+    plt.subplots_adjust(wspace=0.2, bottom=0.5)
+    plt.subplots(figsize=(10,3.5))
+    plt.xticks(rotation=50)
+    plt.title(title)
+    plt.ylabel(ylable, fontsize=12)
+    ax=plt.gca()
+    ax.tick_params(direction='out', length=3, width=1, color='r')
+    xfmt = md.DateFormatter('%m-%d %H:%M')
+    ax.xaxis.set_major_formatter(xfmt)
+    ax.xaxis.set_major_locator(md.DayLocator(bymonthday=range(1,32)))
+    plt.plot(dates,param)
+    plt.tight_layout()
+    try:
+        plt.savefig(img, format='png')
+        param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
+        img.seek(0)
+        return param_vs_time_graph
+    except Exception as e:
+        logging.error(f'JARVIS: FAILED to call visual_worker -> single_kpi_month() caught exception [ {e} ] \n')
+        logging.error('JARVIS: Full trace: \n', exc_info=1)
+    finally:
+        logging.info(f'JARVIS: visual_worker -> single_kpi_month() \n Created [ {title} ] plot graph \n')
+        plt.clf()

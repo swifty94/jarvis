@@ -2,9 +2,11 @@
 {% block content %}
 <h3 class="w3-center">Date filter</h3>
 <div class="topnav">
-  <a class="active" href="/net_stats">Latest from today (default)</a>
-  <a href="/net_week">Weekly data</a>
-  <a href="/net_month">Monthly data</a>
+  <a class="active" href="/net_stats">Today (default)</a>
+  <a href="/net_week">This week</a>
+  <a href="/net_month">This month</a>
+  <a href="/net_week_prev">Previous week</a>
+  <a href="/net_month_prev">Previous month</a>
 </div>
   <img class="w3-row w3-center" src="data:image/png;base64, {{ sentb_vs_time }}"  width="100%" height="auto">
   <img class="w3-row w3-center" src="data:image/png;base64, {{ resvb_vs_time }}"  width="100%" height="auto">

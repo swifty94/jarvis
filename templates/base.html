@@ -2,21 +2,21 @@
 <html>
 <title>Jarvis v1.0.2</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<body class="w3-teal">
-<nav class="w3-sidebar w3-collapse w3-teal" style="z-index:3;width:300px;"><br>
+<body id="Body">
+<nav id="Side" class="w3-sidebar w3-collapse" style="z-index:3;width:300px;"><br>
   <div class="w3-container w3-row">
     <div class="w3-col s8">
       <img class="w3-image" src="{{ url_for('static', filename='logo.webp')}}" width="500" height="400">
     </div>
   </div>
   <hr>
-  <div class="w3-container w3-teal">
+  <div id="Menu" class="w3-container">
     <h5>Menu</h5>
   </div>
-  <div class="w3-bar-block w3-teal">
+  <div class="w3-bar-block">
     <a href="/dashboard" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info fa-fw"></i>  Dashboard</a>
     <a href="/cpu_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  CPU stats</a>
     <a href="/ram_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  RAM stats</a>
@@ -26,7 +26,7 @@
   </div>
 </nav>
 <div class="w3-main" style="margin-left:300px;margin-top:0;" id="Main">
-<header class="w3-center w3-teal" id="Header">
+<header id="Head" class="w3-center" id="Header">
   <h3 class="w3-center">Jarvis v1.0.2</h5>
   <h4 class="w3-center">Monitoring and analysis tool</h4>
   <div class="w3-row-padding w3-margin-bottom">

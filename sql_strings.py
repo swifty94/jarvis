@@ -42,17 +42,75 @@ VALUES (%s, %s, %s, %s)"""
 disk_insert = """INSERT INTO disk (read_io, write_io, d_used, d_free) 
 VALUES (%s, %s, %s, %s)"""
 
+####################################################################################
+#
+#   SQL queries for the views in the UI interfase (processed by visualize_data.py)
+#
+####################################################################################
+###########################################
+#
+#   SQL Queries for tables/cells/headers
+#
+###########################################
+header_q1 = """
+SELECT 
+ROUND((SUM(c.cpu_percent)) / (COUNT(c.id)), 2) as 'CPU avg %',
+ROUND((SUM(c.cur_freq)) / (COUNT(c.id)), 2) as 'CPU frequency avg in  GHz',
+ROUND((SUM(r.used_mem)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'RAM used avg in GB',
+ROUND((SUM(r.swap_used)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'SWAP used avg in GB'
+FROM cpu c, ram r;"""
+header_q2 = """
+SELECT 
+ROUND((SUM(d.read_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Read I/O avg in GB',
+ROUND((SUM(d.write_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Write I/O avg in GB',
+ROUND((SUM(n.sent_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Sent avg in GB',
+ROUND((SUM(n.recv_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Received avg in GB'
+FROM disk d, network n;"""
+sysinfo_q1 = """
+SELECT s.nodename, s.osname, s.osarch, s.cpuarch, c.boot FROM sysinfo s, cpu c ORDER BY c.updated DESC LIMIT 1;"""
+sysinfo_q2 = """
+SELECT ROUND(d_total / 1024 / 1024 / 1024) as total_space, 
+ROUND(total_mem / 1024 / 1024 / 1024) as total_ram, 
+ROUND(swap_total / 1024 / 1024 / 1024) as total_swap, cores_ph, 
+cores_t, max_freq, min_freq 
+FROM sysinfo ;"""
+cpu_table_q = """
+SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
+cpu_percent as 'CPU  % ', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+ORDER by updated DESC LIMIT 10;
+"""
+ram_table_q = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
+ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+ORDER BY updated DESC 
+LIMIT 10;
+"""
+disk_table_q = """
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
+ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB',
+ROUND(d_used / 1024 / 1024 / 1024, 2) as 'Disk used in GB',
+updated as 'Date'
+FROM disk
+ORDER BY updated 
+DESC LIMIT 10;
+"""
+net_table_q = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
+ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+ORDER by updated DESC LIMIT 10;
+"""
 
-####################################################################################
+###########################################
 #
-#   SQL queries for the views in the UI interfase (processed by visual_worker.py)
+#   SQL Queries for graphs
 #
-####################################################################################
-#################################
-#
-#   SQL Queries for charts
-#
-################################
+###########################################
 
 #               RAM
 
@@ -203,75 +261,18 @@ cpu_usage_t_vs_time_title = 'CPU % usage'
 cpu_usage_t_vs_time_ylable = "% from 100"
 
 loadavg_vs_time_q = """
-SELECT cpu_percent, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+SELECT load_avg, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
 """
 loadavg_vs_time_title = 'CPU load avg. %'
 loadavg_vs_time_ylable = "% from 100"
-
-###########################################
-#
-#   SQL Queries for tables/cells/headers
-#
-###########################################
-header_q1 = """
-SELECT 
-ROUND((SUM(c.cpu_percent)) / (COUNT(c.id)), 2) as 'CPU avg %',
-ROUND((SUM(c.cur_freq)) / (COUNT(c.id)), 2) as 'CPU frequency avg in  GHz',
-ROUND((SUM(r.used_mem)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'RAM used avg in GB',
-ROUND((SUM(r.swap_used)) / (COUNT(r.id)) /1024/1024/1024, 2) as 'SWAP used avg in GB'
-FROM cpu c, ram r;"""
-header_q2 = """
-SELECT 
-ROUND((SUM(d.read_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Read I/O avg in GB',
-ROUND((SUM(d.write_io)) / (COUNT(d.id)) /1024/1024/1024, 2) as 'Write I/O avg in GB',
-ROUND((SUM(n.sent_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Sent avg in GB',
-ROUND((SUM(n.recv_b)) / (COUNT(n.id)) /1024/1024/1024, 2) as 'Network - Received avg in GB'
-FROM disk d, network n;"""
-sysinfo_q1 = """
-SELECT s.nodename, s.osname, s.osarch, s.cpuarch, c.boot FROM sysinfo s, cpu c ORDER BY c.updated DESC LIMIT 1;"""
-sysinfo_q2 = """
-SELECT ROUND(d_total / 1024 / 1024 / 1024) as total_space, 
-ROUND(total_mem / 1024 / 1024 / 1024) as total_ram, 
-ROUND(swap_total / 1024 / 1024 / 1024) as total_swap, cores_ph, 
-cores_t, max_freq, min_freq 
-FROM sysinfo ;"""
-cpu_table_q = """
-SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
-cpu_percent as 'CPU  % ', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
-FROM cpu 
-ORDER by updated DESC LIMIT 10;
-"""
-ram_table_q = """
-SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
-ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
-FROM ram 
-ORDER BY updated DESC 
-LIMIT 10;
-"""
-disk_table_q = """
-SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
-ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB',
-ROUND(d_used / 1024 / 1024 / 1024, 2) as 'Disk used in GB',
-updated as 'Date'
-FROM disk
-ORDER BY updated 
-DESC LIMIT 10;
-"""
-net_table_q = """
-SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
-ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
-FROM network 
-ORDER by updated DESC LIMIT 10;
-"""
 
 ##############################
 #
 #   Queries for history data
 #
 #       for tables and graphs
+#
+#       (Current)
 #
 ###############################
 
@@ -285,8 +286,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
 
 ram_history_w = """
@@ -296,8 +296,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
 disk_history_w = """
 SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
@@ -307,8 +306,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
 net_history_w = """
 SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
@@ -317,8 +315,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
         # graphs
 
@@ -330,8 +327,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 cpu_freq_vs_time_w = """
@@ -340,8 +336,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 coretemp_vs_time_w = """
@@ -350,8 +345,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 loadavg_vs_time_w = """
@@ -360,8 +354,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
                 # NETWORK
@@ -372,8 +365,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 sentb_vs_time_w = """
@@ -382,8 +374,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 net_sent_p_w = """
@@ -392,8 +383,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 net_resv_q_w = """
@@ -402,8 +392,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
         # DISK
@@ -415,8 +404,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 disk_free_w = """
@@ -425,8 +413,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 rio_vs_time_w = """
@@ -435,8 +422,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 wio_vs_time_w = """
@@ -445,8 +431,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 swap_vs_time_w = """
@@ -455,8 +440,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 ram_vs_time_w = """
@@ -465,8 +449,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 swap_free_vs_time_w = """
 SELECT ROUND(swap_free / 1024 / 1024, 2) as 'Free SWAP in MB', 
@@ -474,8 +457,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 ram_free_vs_time_w = """
@@ -484,8 +466,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE month(updated) = month(curdate()) AND
 week(updated) = week(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 # Monthly 
@@ -499,8 +480,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
 
 ram_history_m = """
@@ -510,8 +490,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
 disk_history_m = """
 SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
@@ -521,8 +500,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
 net_history_m = """
 SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
@@ -531,8 +509,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 50;
+ORDER BY updated ASC;
 """
         # graphs
 
@@ -544,8 +521,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 cpu_freq_vs_time_m = """
@@ -554,8 +530,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 coretemp_vs_time_m = """
@@ -564,8 +539,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 loadavg_vs_time_m = """
@@ -574,8 +548,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM cpu 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
         # NETWORK
@@ -586,8 +559,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 sentb_vs_time_m = """
@@ -596,8 +568,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 net_sent_p_m = """
@@ -606,8 +577,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 net_resv_q_m = """
@@ -616,8 +586,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM network 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
         # DISK
@@ -628,8 +597,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 wio_vs_time_m = """
@@ -638,8 +606,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 disk_used_m = """
@@ -648,8 +615,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 disk_free_m = """
@@ -658,8 +624,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM disk 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
         # RAM
@@ -670,8 +635,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 ram_vs_time_m = """
@@ -680,8 +644,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 swap_free_vs_time_m = """
@@ -690,8 +653,7 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
 """
 
 ram_free_vs_time_m = """
@@ -700,6 +662,385 @@ DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
 FROM ram 
 WHERE year(updated) = year(curdate()) AND
 month(updated) = month(curdate())
-ORDER BY updated
-ASC LIMIT 20;
+ORDER BY updated ASC;
+"""
+
+
+##############################
+#
+#   Queries for history data
+#
+#       for tables and graphs
+#
+#       (Previous)
+#
+###############################
+
+# Weekly
+        # tables
+
+cpu_history_wp = """
+SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
+cpu_percent as 'CPU  % ', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+ram_history_wp = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
+ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+disk_history_wp = """
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
+ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB',
+ROUND(d_used / 1024 / 1024 / 1024, 2) as 'Disk used in GB',
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+net_history_wp = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
+ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+FROM network 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+        # graphs
+
+                # CPU
+
+cpu_usage_t_vs_time_wp = """
+SELECT cpu_percent, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+cpu_freq_vs_time_wp = """
+SELECT cur_freq, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+coretemp_vs_time_wp = """
+SELECT coretemp, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+loadavg_vs_time_wp = """
+SELECT load_avg, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+                # NETWORK
+
+resvb_vs_time_wp = """
+SELECT ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+sentb_vs_time_wp = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+net_sent_p_wp = """
+SELECT sent_p AS Sent_packets, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+net_resv_q_wp = """
+SELECT recv_p AS Received_packets,
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+        # DISK
+
+
+disk_used_wp = """
+SELECT ROUND(d_used / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+disk_free_wp = """
+SELECT ROUND(d_free / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+rio_vs_time_wp = """
+SELECT ROUND(read_io / 1024 / 1024, 2) as 'Read I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+wio_vs_time_wp = """
+SELECT ROUND(write_io / 1024 / 1024, 2) as 'Write I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+swap_vs_time_wp = """
+SELECT ROUND(swap_used / 1024 / 1024, 2) as 'Used SWAP in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+ram_vs_time_wp = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+swap_free_vs_time_wp = """
+SELECT ROUND(swap_free / 1024 / 1024, 2) as 'Free SWAP in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+ram_free_vs_time_wp = """
+SELECT ROUND(avail_mem / 1024 / 1024, 2) as 'Free RAM in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE week(updated) = week(curdate())-1
+ORDER BY updated ASC;
+"""
+
+# Monthly 
+
+        # tables
+
+cpu_history_mp = """
+SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
+cpu_percent as 'CPU  % ', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+ram_history_mp = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
+ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+disk_history_mp = """
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
+ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB',
+ROUND(d_used / 1024 / 1024 / 1024, 2) as 'Disk used in GB',
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+net_history_mp = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
+ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+        # graphs
+
+                # CPU
+
+cpu_usage_t_vs_time_mp = """
+SELECT cpu_percent,
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+cpu_freq_vs_time_mp = """
+SELECT cur_freq, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+coretemp_vs_time_mp = """
+SELECT coretemp, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+loadavg_vs_time_mp = """
+SELECT load_avg, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM cpu 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+        # NETWORK
+
+resvb_vs_time_mp = """
+SELECT ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+sentb_vs_time_mp = """
+SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+net_sent_p_mp = """
+SELECT sent_p AS Sent_packets, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+net_resv_q_mp = """
+SELECT recv_p AS Received_packets,
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM network 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+        # DISK
+
+rio_vs_time_mp = """
+SELECT ROUND(read_io / 1024 / 1024, 2) as 'Read I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+wio_vs_time_mp = """
+SELECT ROUND(write_io / 1024 / 1024, 2) as 'Write I/O in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+disk_used_mp = """
+SELECT ROUND(d_used / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+disk_free_mp = """
+SELECT ROUND(d_free / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM disk 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+        # RAM
+
+swap_vs_time_mp = """
+SELECT ROUND(swap_used / 1024 / 1024, 2) as 'Used SWAP in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+ram_vs_time_mp = """
+SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+swap_free_vs_time_mp = """
+SELECT ROUND(swap_free / 1024 / 1024, 2) as 'Free SWAP in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
+"""
+
+ram_free_vs_time_mp = """
+SELECT ROUND(avail_mem / 1024 / 1024, 2) as 'Free RAM in MB', 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+FROM ram 
+WHERE year(updated) = year(curdate()) AND
+month(updated) = month(curdate())-1
+ORDER BY updated ASC;
 """

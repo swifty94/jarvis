@@ -21,6 +21,8 @@
 
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `jarvis` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
+GRANT ALL ON *.* to jarvis@'localhost' IDENTIFIED BY 'jarvis';
+
 USE `jarvis`;
 
 --

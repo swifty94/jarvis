@@ -41,7 +41,7 @@ def process_monitor():
             p = psutil.Process(i)
             name = p.name()
             path = p.exe()
-            cpu = p.cpu_percent(interval=0.01)
+            cpu = p.cpu_percent(interval=0.05)
             mem = round((p.memory_info()[1] / 1024 / 1024), 2)
             if p.is_running() == True:
               names.append(name)

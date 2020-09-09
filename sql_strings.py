@@ -75,35 +75,37 @@ ROUND(swap_total / 1024 / 1024 / 1024) as total_swap, cores_ph,
 cores_t, max_freq, min_freq 
 FROM sysinfo ;"""
 cpu_table_q = """
-SELECT ROUND(cur_freq) as 'CPU frequency - actual', 
-cpu_percent as 'CPU  % ', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(cur_freq), 
+cpu_percent, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM cpu 
-ORDER by updated DESC LIMIT 10;
+WHERE DATE(updated) = curdate()
+ORDER BY updated DESC;
 """
 ram_table_q = """
-SELECT ROUND(used_mem / 1024 / 1024, 2) as 'Used RAM in MB',
-ROUND(swap_used / 1024 / 1024, 2) as 'SWAP used in MB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(used_mem / 1024 / 1024, 2),
+ROUND(swap_used / 1024 / 1024, 2), 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM ram 
-ORDER BY updated DESC 
-LIMIT 10;
+WHERE DATE(updated) = curdate()
+ORDER BY updated DESC
 """
 disk_table_q = """
-SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in GB',
-ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB',
-ROUND(d_used / 1024 / 1024 / 1024, 2) as 'Disk used in GB',
-updated as 'Date'
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2),
+ROUND(read_io / 1024 / 1024 / 1024, 2),
+ROUND(d_used / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM disk
-ORDER BY updated 
-DESC LIMIT 10;
+WHERE DATE(updated) = curdate()
+ORDER BY updated DESC
 """
 net_table_q = """
-SELECT ROUND(sent_b / 1024 / 1024, 2) as 'Sent over network in MB',
-ROUND(recv_b / 1024 / 1024, 2) as 'Received over network in MB',
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(sent_b / 1024 / 1024, 2),
+ROUND(recv_b / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM network 
-ORDER by updated DESC LIMIT 10;
+WHERE DATE(updated) = curdate()
+ORDER BY updated DESC
 """
 
 ###########################################
@@ -116,41 +118,42 @@ ORDER by updated DESC LIMIT 10;
 
 ram_free_q = """
 SELECT ROUND(avail_mem / 1024 / 1024 / 1024, 2),
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM ram
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 ram_free_vs_time_title = 'RAM free'
 ram_free_vs_time_ylable = 'GB'
 
 
 swap_free_q = """
-SELECT ROUND(swap_free / 1024 / 1024 / 1024, 2) Available_SWAP, 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(swap_free / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM ram
-ORDER by updated 
-DESC LIMIT 20;"""
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
+"""
 swap_free_vs_time_title = 'SWAP free'
 swap_free_vs_time_ylable = 'GB'
 
 
 ram_vs_time_q = """
-SELECT ROUND(used_mem / 1024 / 1024 / 1024, 2) as 'Used RAM in GB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(used_mem / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM ram 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 ram_vs_time_title = 'RAM usage'
 ram_vs_time_ylable = 'GB'
 
 swap_vs_time_q = """
-SELECT ROUND(swap_used / 1024 / 1024 / 1024, 2) as 'Used SWAP in GB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(swap_used / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM ram 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 swap_vs_time_title = 'SWAP usage'
 swap_vs_time_ylable = 'GB'
@@ -161,30 +164,30 @@ swap_vs_time_ylable = 'GB'
 
 disk_used_q = """
 SELECT ROUND(d_used / 1024 / 1024 / 1024, 2),
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM disk 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 disk_used_vs_time_title = 'Occupied space'
 disk_used_vs_time_ylable = 'GB'
 
 disk_free_q = """
 SELECT ROUND(d_free / 1024 / 1024 / 1024, 2),
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM disk 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 disk_free_vs_time_title = 'Free space'
 disk_free_vs_time_ylable = 'GB'
 
 wio_vs_time_q = """
-SELECT ROUND(write_io / 1024 / 1024 / 1024, 2) as 'Write I/O in MB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT ROUND(write_io / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM disk 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 wio_vs_time_title = 'Write GB from hard drive'
 wio_vs_time_ylable = 'GB'
@@ -192,10 +195,11 @@ wio_vs_time_ylable = 'GB'
 
 
 rio_vs_time_q = """
-SELECT ROUND(read_io / 1024 / 1024 / 1024, 2) as 'Read I/O in GB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+SELECT ROUND(read_io / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM disk 
-ORDER by updated DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 rio_vs_time_title = 'Read GB from hard drive'
 rio_vs_time_ylable = 'GB'
@@ -203,40 +207,42 @@ rio_vs_time_ylable = 'GB'
 #               NETWORK
 
 sentb_vs_time_q = """
-SELECT ROUND(sent_b / 1024 / 1024 / 1024, 2) as 'Sent over network in GB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+SELECT ROUND(sent_b / 1024 / 1024 / 1024, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM network 
-ORDER by updated DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 sentb_vs_time_title = 'Sent GB over network interfaces'
 sentb_vs_time_ylable = 'GB'
 
 resvb_vs_time_q = """
-SELECT ROUND(recv_b / 1024 / 1024 / 1024, 2) as 'Received over network in GB', 
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' 
+SELECT ROUND(recv_b / 1024 / 1024 / 1024, 2), 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i') 
 FROM network 
-ORDER by updated DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 resvb_vs_time_title = 'Received GB over network interfaces'
 resvb_vs_time_ylable = 'GB'
 
 net_sent_p_q = """
-SELECT round(sent_p / 1000, 2) as packets_K,
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT round(sent_p / 1000, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM network 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 net_sent_vs_time_title = 'Sent packets over network, K'
 net_sent_vs_time_ylable = 'packets x 1000'
 
 
 net_resv_q = """
-SELECT round(recv_p / 1000, 2) as packets_K,
-DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE'
+SELECT round(recv_p / 1000, 2),
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
 FROM network 
-ORDER by updated 
-DESC LIMIT 20;
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
 """
 net_resv_vs_time_title = 'Received packets over network, K'
 net_resv_vs_time_ylable = 'packets x 1000'
@@ -244,24 +250,41 @@ net_resv_vs_time_ylable = 'packets x 1000'
 #                       CPU 
 
 coretemp_vs_time_q = """
-SELECT coretemp, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;"""
+SELECT coretemp, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
+FROM cpu
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC
+"""
 coretemp_vs_time_title = 'Average core temperature'
 coretemp_vs_time_ylable = 'Temperature'
 
 cpu_freq_vs_time_q = """
-SELECT cur_freq, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+SELECT cur_freq, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
+FROM cpu 
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC;
 """
 cpu_freq_vs_time_title = 'CPU frequency'
 cpu_freq_vs_time_ylable = 'Hz'
 
 cpu_usage_t_vs_time_q = """
-SELECT cpu_percent, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+SELECT cpu_percent, 
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
+FROM cpu 
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC;
 """
 cpu_usage_t_vs_time_title = 'CPU % usage'
 cpu_usage_t_vs_time_ylable = "% from 100"
 
 loadavg_vs_time_q = """
-SELECT load_avg, DATE_FORMAT(updated, '%Y-%m-%d %H:%i') as 'DATE' FROM cpu ORDER BY updated DESC LIMIT 20;
+SELECT load_avg,
+DATE_FORMAT(updated, '%Y-%m-%d %H:%i')
+FROM cpu 
+WHERE DATE(updated) = curdate()
+ORDER BY updated ASC;
 """
 loadavg_vs_time_title = 'CPU load avg. %'
 loadavg_vs_time_ylable = "% from 100"

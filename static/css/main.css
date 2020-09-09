@@ -1,11 +1,38 @@
-html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+html,body,h1,h2,h3,h4,h5 {
+  font-family: "Raleway", serif;
+}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-
+  background-color:#cce2ff;
+  padding: 8px;
 }
+@media screen and (min-width: 601px) {
+  table, th, td {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  table, th, td {
+    font-size: 10px;
+  }
+}
+
 #main {
   background-color: #ffffff;
+
+}
+#logo {
+  border-style: hidden;
+}
+img {
+  border-style: outset;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-bottom: 20px;
 }
 th, td {
   padding: 15px;
@@ -13,6 +40,12 @@ th, td {
 }
 th {
   background-color: #c0c1c2;
+}
+td {
+  background-color: #ffffff;
+}
+td:hover {
+  background-color: #f5f5f5;
 }
 #t01 {
   width: 100%; 
@@ -31,28 +64,76 @@ th {
 }
 
 .topnav {
-  height: 50px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  margin-left: 6%;
+  margin-top: 3%;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav .icon {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .topnav a:not(:first-child) {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+.midnav {
+  height: 60px;
   width: 100%;
   overflow: hidden;
   background-color:#4d4e4f;
   text-align: center;
 }
 
-.topnav a {
+.midnav a {
     color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 25px;
   }
   
-.topnav a:hover {
-    background-color: #ddd;
+.midnav a:hover {
+    background-color: #ffffff;
     color: black;
   }
   
-.topnav a.active {
-    background-color: #4a91c2;
+.midnav a.active {
+    background-color: #2929ff;
     color: white;
 }
 

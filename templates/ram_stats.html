@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 <h3 class="w3-center">Date filter</h3>
-<div class="topnav">
+<div class="midnav">
   <a class="active" href="/ram_stats">Today (default)</a>
   <a href="/ram_week">This week</a>
   <a href="/ram_month">This month</a>
   <a href="/ram_week_prev">Previous week</a>
   <a href="/ram_month_prev">Previous month</a>
 </div>
-<img class="w3-row w3-center" src="data:image/png;base64, {{ ram_free_vs_time }}"  width="100%" height="auto">
-<img class="w3-row w3-center" src="data:image/png;base64, {{ swap_free_vs_time }}" width="100%" height="auto">
-<img class="w3-row w3-center" src="data:image/png;base64, {{ ram_vs_time }}"  width="100%" height="auto">
-<img class="w3-row w3-center" src="data:image/png;base64, {{ swap_vs_time }}"  width="100%" height="auto">
+<img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ ram_free_vs_time }}"  width="100%" height="auto">
+<img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ swap_free_vs_time }}" width="100%" height="auto">
+<img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ ram_vs_time }}"  width="100%" height="auto">
+<img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ swap_vs_time }}"  width="100%" height="auto">
 <table id="t01" style="width:100%">
   <tr>
     <th>Used RAM in MB</th>

@@ -1,41 +1,35 @@
 <!DOCTYPE html>
 <html>
-<title>Jarvis v1.0.2</title>
+<title>Jarvis v1</title>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<body id="Body">
-<nav id="Side" class="w3-sidebar w3-collapse" style="z-index:3;width:300px;"><br>
-  <div class="w3-container w3-row">
-    <div class="w3-col s8">
-      <img class="w3-image" src="{{ url_for('static', filename='logo.webp')}}" width="500" height="400">
-    </div>
-  </div>
-  <hr>
-  <div id="Menu" class="w3-container">
-    <h5>Menu</h5>
-  </div>
-  <div class="w3-bar-block">
-    <a href="/dashboard" class="w3-bar-item w3-button w3-padding"><i class="fa fa-info fa-fw"></i>  Dashboard</a>
-    <a href="/cpu_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  CPU stats</a>
-    <a href="/ram_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  RAM stats</a>
-    <a href="/disk_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  Disk stats</a>
-    <a href="/net_stats" class="w3-bar-item w3-button w3-padding"><i class="fa fa-line-chart fa-fw"></i>  Network stats</a>
-    <a href="/processes" class="w3-bar-item w3-button w3-padding"><i class="fa fa-server fa-fw"></i>  Processes</a>
-  </div>
-</nav>
-<div class="w3-main w3-mobile" style="margin-left:300px;margin-top:0;" id="Main">
+
+<body id="Body">      
+<div class="topnav" id="myTopnav">
+  <a href="/dashboard" class=" w3-mobile"> Dashboard</a>
+  <a href="/cpu_stats" class=" w3-mobile"> CPU</a>
+  <a href="/ram_stats" class=" w3-mobile"> RAM</a>
+  <a href="/disk_stats" class=" w3-mobile"> Hard drive</a>
+  <a href="/net_stats" class=" w3-mobile"> Network</a>
+  <a href="/processes" class=" w3-mobile"> Processes</a>
+  <img id="logo" class="w3-image w3-mobile" src="{{ url_for('static', filename='logo.webp')}}" style="width:10%;margin-right:15px">
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>
+<br>
+<div class="w3-main w3-mobile" style="margin-left:0%;background-color:#deecff;font-size:20px">
 <header id="Head" class="w3-center" id="Header">
-  <h3 class="w3-center">Jarvis v1.0.2</h5>
-  <h4 class="w3-center">Monitoring and analysis tool</h4>
-  <div class="w3-row-padding w3-margin-bottom">
+  <div class="w3-row-padding w3-margin-bottom w3-mobile">
       <table id="t01" style="width:100%">
         <tr>
           <th>Hostname</th>
           <th>OS type</th> 
-          <th>OS architecture</th>
-          <th>CPU architecture</th>
+          <th>OS arch</th>
+          <th>CPU arch</th>
           <th>Boot time</th>
         </tr>
         {% for nodename,osname,osarch,cpuarch,boot in sysinfo_result1 %}
@@ -54,10 +48,10 @@
           <th>Total space</th>
           <th>Total RAM</th> 
           <th>Total SWAP</th>
-          <th>Physical cores</th>
-          <th>Logical cores</th>
-          <th>Max CPU frequency MHz</th>
-          <th>Min CPU frequency MHz</th>
+          <th>Physical CPU cores</th>
+          <th>Logical CPU cores</th>
+          <th>Max CPU, MHz</th>
+          <th>Min CPU, MHz</th>
         </tr>
         {% for d_total,total_mem,swap_total,cores_ph,cores_t,max_freq,min_freq in sysinfo_result2 %}
         <tr>
@@ -78,5 +72,15 @@
 <!-- Dynamic page content for child items goes here -->
 {% endblock %}
 </div>
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
 </body>
 </html>

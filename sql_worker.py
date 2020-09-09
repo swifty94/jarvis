@@ -6,11 +6,11 @@ import logging
 from system_data_kpi import *
 from sql_strings import *
 from visualize_data import performance
-##########################
+####################################################
 #
-#   LOGGING PROPERTIES
+#   Logging properties
 #
-##########################
+####################################################
 FORMAT = '%(asctime)s  %(levelname)s :  %(message)s'
 logging.basicConfig(filename="application.log", level=logging.INFO, format=FORMAT)
 

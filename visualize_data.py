@@ -13,18 +13,18 @@ import dateutil
 import logging
 from datetime import datetime
 from sql_strings import dbconfig
-##########################
+####################################################
 #
-#   LOGGING PROPERTIES
+#   Logging properties
 #
-##########################
+####################################################
 FORMAT = '%(asctime)s  %(levelname)s :  %(message)s'
 logging.basicConfig(filename="application.log", level=logging.INFO, format=FORMAT)
-###################################
+####################################################
 #
-#   Function performace wrapper
+#   Logging time used by function
 #
-###################################
+####################################################
 def performance(fn):
   def wrapper(*args, **kwargs):
     start = time()
@@ -38,11 +38,11 @@ def performance(fn):
     logging.info(f'JARVIS: @performace.wrapper() \n {out} \n')
     return result
   return wrapper
-#################################
+####################################################
 #
 #   Main visualization functions
 #
-#################################
+####################################################
 
 @performance
 def get_sql_data(sql):
@@ -58,39 +58,17 @@ def get_sql_data(sql):
             mydb = mysql.connector.connect(**dbconfig)
             cursor = mydb.cursor()
             cursor.execute(sql)
-            result = cursor.fetchall()
-            logging.info(f'JARVIS: visual_worker -> get_sql_fetchone() \n SQL used  {sql} \n')
-            return result
-            cursor.close()
+            result = cursor.fetchall()            
+            return result            
         except Exception as e:
-            logging.error(f'JARVIS: FAILED to call visual_worker -> get_sql_fetchone() \n SQL used {sql} \n')
+            logging.error(f'JARVIS: FAILED to call visualize_data -> get_sql_data() \n SQL used {sql} \n')
             logging.error(f'JARVIS: get_sql_data() caught exception [ {e} ]')
             logging.error('JARVIS: Full trace: \n', exc_info=1)
             cursor.close()
+        finally:
+            logging.info(f'JARVIS: visualize_data -> get_sql_data() \n SQL used  {sql} \n')
+            cursor.close()
 
-@performance
-def get_sql_fetchone(sql):
-    """
-    Function for single row data fetch from the MySQL.
-    Accepting sql query as the parameter.
-
-    Example:
-
-    result = get_sql_fetchone(sql)
-    """
-    try:
-        mydb = mysql.connector.connect(**dbconfig)
-        cursor = mydb.cursor()
-        cursor.execute(sql)
-        result = cursor.fetchone()
-        logging.info(f'JARVIS: visual_worker.get_sql_fetchone() \n SQL used {sql} \n')
-        return result
-        cursor.close()
-    except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker.get_sql_fetchone() \n SQL used {sql} \n')
-        logging.error(f'JARVIS: visual_worker.get_sql_fetchone() caught exception [ {e} ]')
-        logging.error('JARVIS: Full trace: \n', exc_info=1)
-        cursor.close()
 
 def single_kpi_now(sql, title, ylable):
     """
@@ -121,19 +99,21 @@ def single_kpi_now(sql, title, ylable):
     ax.tick_params(direction='out', length=3, width=1, color='r')
     xfmt = md.DateFormatter('%m-%d %H:%M')
     ax.xaxis.set_major_formatter(xfmt)
-    ax.xaxis.set_major_locator(md.MinuteLocator(interval=5))
-    plt.plot(dates,param)
+    #ax.xaxis.set_major_locator(md.MinuteLocator(interval=5))
+    plt.plot
+    plt.plot(dates,param, '-b')
     plt.tight_layout()
     try:
         plt.savefig(img, format='png')
         param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
-        img.seek(0)
-        logging.info(f'JARVIS: visual_worker -> single_kpi_now() \n Created [ {title} ] plot graph \n')
-        plt.clf()
+        img.seek(0)    
         return param_vs_time_graph
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker -> single_kpi_now() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS: FAILED to call visualize_data -> single_kpi_now() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
+    finally:
+        logging.info(f'JARVIS: visualize_data -> single_kpi_now() \n Created [ {title} ] plot graph \n')
+        plt.clf()
 
 
 def single_kpi_week(sql, title, ylable):
@@ -160,18 +140,19 @@ def single_kpi_week(sql, title, ylable):
     xfmt = md.DateFormatter('%m-%d %H:%M')
     ax.xaxis.set_major_formatter(xfmt)
     ax.xaxis.set_major_locator(md.WeekdayLocator(byweekday=(MO, TU, WE, TH, FR, SA, SU), interval=1))
-    plt.plot(dates,param)
+    plt.plot(dates,param, '-b')
     plt.tight_layout()
     try:
         plt.savefig(img, format='png')
         param_vs_time_graph = base64.b64encode(img.getvalue()).decode()
         img.seek(0)
-        logging.info(f'JARVIS: visual_worker -> single_kpi_week() \n Created [ {title} ] plot graph \n')
-        plt.clf()
         return param_vs_time_graph
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker -> single_kpi_week() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS: FAILED to call visualize_data -> single_kpi_week() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
+    finally:
+        logging.info(f'JARVIS: visualize_data -> single_kpi_week() \n Created [ {title} ] plot graph \n')
+        plt.clf()
 
 def single_kpi_month(sql, title, ylable):
     """
@@ -197,7 +178,7 @@ def single_kpi_month(sql, title, ylable):
     xfmt = md.DateFormatter('%m-%d %H:%M')
     ax.xaxis.set_major_formatter(xfmt)
     ax.xaxis.set_major_locator(md.DayLocator(bymonthday=range(1,32)))
-    plt.plot(dates,param)
+    plt.plot(dates,param, '-b')
     plt.tight_layout()
     try:
         plt.savefig(img, format='png')
@@ -205,8 +186,8 @@ def single_kpi_month(sql, title, ylable):
         img.seek(0)
         return param_vs_time_graph
     except Exception as e:
-        logging.error(f'JARVIS: FAILED to call visual_worker -> single_kpi_month() caught exception [ {e} ] \n')
+        logging.error(f'JARVIS: FAILED to call visualize_data -> single_kpi_month() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
     finally:
-        logging.info(f'JARVIS: visual_worker -> single_kpi_month() \n Created [ {title} ] plot graph \n')
+        logging.info(f'JARVIS: visualize_data -> single_kpi_month() \n Created [ {title} ] plot graph \n')
         plt.clf()

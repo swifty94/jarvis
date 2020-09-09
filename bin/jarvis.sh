@@ -5,26 +5,29 @@
 #
 ###########################################
 
-export JARVIS_HOME=/home/master/Dev/jarvis_master/
+export JARVIS_HOME=/home/master/Dev/jarvis_master
+export now=`date +%m_%d_%H:%M:%S`
 
 start() {
-        export now=`date +%m_%d_%H:%M:%S`
-        if [  -f application.log  ]; then
+
+        if [[ ! -d $JARVIS_HOME/log ]]; then
+                mkdir $JARVIS_HOME/log
+        fi
+
+        if [  -f $JARVIS_HOME/application.log  ]; then
                 echo "Jarvis server: Log file copied to archieve in $JARVIS_HOME/log/"
                 echo ''
                 echo "Jarvis server: Log file name: application.log_$now"
                 echo ''
                 echo "Jarvis server: Old log truncated. Appending from scratch"
                 echo ''
-                cp application.log log/application.log_$now
-                rm -f application.log
+                cp $JARVIS_HOME/application.log $JARVIS_HOME/log/application.log_$now
+                rm -f $JARVIS_HOME/application.log
         fi
-        if [  -d venv  ]; then
-                echo "Jarvis server: Virtual environment already exist!"
-                echo ''
-                echo "Jarvis server: Activating virtual environment.."
-                cd $JARVIS_HOME
-                source venv/bin/activate
+        
+        if [  -d $JARVIS_HOME/venv  ]; then                
+                echo "Jarvis server: Activating virtual environment.."                
+                source $JARVIS_HOME/venv/bin/activate
                 echo ''
                 echo "Jarvis server: DONE"
                 echo ''
@@ -32,13 +35,13 @@ start() {
                 echo ''
                 echo "Jarvis server: Database worker start"
                 echo ''
-                echo "Jarvis server: Visual worker start"
+                echo "Jarvis server: Data visualiztion processor start"
                 echo ''
                 echo "Jarvis server: Web server start"
                 echo ''
                 echo "Jarvis server: Application start..."
-                venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &
-                venv/bin/python3 $JARVIS_HOME/sql_worker.py  >> application.log &
+                $JARVIS_HOME/venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &
+                $JARVIS_HOME/venv/bin/python3 $JARVIS_HOME/sql_worker.py  >> application.log &
                 echo ''
                 sleep 3
                 echo 'Jarvis server: DONE!'
@@ -46,28 +49,27 @@ start() {
                 echo 'Jarvis server: You can check the GUI via:'
                 echo ''
                 echo "http://your_domain_or_ip_address:5000/"
-        else    
-                cd $JARVIS_HOME
+        else                    
                 echo "Jarvis server: Virtual environment NOT FOUND!"
                 echo ''
                 echo "Jarvis server: Installing virtual environment.."
                 sleep 2
-                python3 -m venv venv
+                python3 -m venv $JARVIS_HOME/venv
                 echo ''
                 echo 'Jarvis server: DONE'
                 echo ''
                 echo 'Jarvis server: Activate virtual environment'
-                source venv/bin/activate
+                source $JARVIS_HOME/venv/bin/activate
                 sleep 2
                 echo ''
                 echo 'Jarvis server: DONE'
                 echo ''
                 echo "Jarvis server: Installing dependencies...Hold on"
-                venv/bin/pip3 install -r modules.txt > /dev/null 2> /dev/null && sleep 2
+                $JARVIS_HOME/venv/bin/pip3 install -r $JARVIS_HOME/modules.txt > /dev/null 2> /dev/null && sleep 2
                 echo "Jarvis server: DONE"
                 echo ''
-                venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &
-                venv/bin/python3 $JARVIS_HOME/sql_worker.py >> application.log &
+                $JARVIS_HOME/venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &
+                $JARVIS_HOME/venv/bin/python3 $JARVIS_HOME/sql_worker.py >> application.log &
                 echo ''
                 echo "Jarvis server: DONE"
                 echo ''
@@ -75,7 +77,7 @@ start() {
                 echo ''
                 echo "Jarvis server: Database worker start"
                 echo ''
-                echo "Jarvis server: Visual worker start"
+                echo "Jarvis server: Data visualiztion processor start"
                 echo ''
                 echo "Jarvis server: Web server start"
                 echo ''
@@ -92,18 +94,15 @@ start() {
 }
 
 stop() {
-        export now=`date +%m_%d_%H:%M:%S`
         PID1=$(ps aux|grep -v grep|grep jarvis.py |awk '{print $2}')
         PID2=$(ps aux|grep -v grep|grep sql_worker.py |awk '{print $2}')
         echo "Jarvis server: gracefull shutdown."
         echo ''
         kill -9 $PID1
         kill -9 $PID2
-        echo "Jarvis server: Received call stop() function"
-        echo ''
         echo "Jarvis server: Database worker shutdown!"
         echo ''
-        echo "Jarvis server: Visual worker shutdown!"
+        echo "Jarvis server: Data visualiztion processor shutdown!"
         echo ''
         echo "Jarvis server: Web server shutdown!"
         echo ''

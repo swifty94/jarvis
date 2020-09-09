@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
 <h3 class="w3-center">Date filter</h3>
-<div class="topnav">
+<div class="midnav">
   <a class="active" href="/net_stats">Today (default)</a>
   <a href="/net_week">This week</a>
   <a href="/net_month">This month</a>
   <a href="/net_week_prev">Previous week</a>
   <a href="/net_month_prev">Previous month</a>
 </div>
-  <img class="w3-row w3-center" src="data:image/png;base64, {{ sentb_vs_time }}"  width="100%" height="auto">
-  <img class="w3-row w3-center" src="data:image/png;base64, {{ resvb_vs_time }}"  width="100%" height="auto">
-  <img class="w3-row w3-center" src="data:image/png;base64, {{ sentp_vs_time }}" width="100%" height="auto">
-  <img class="w3-row w3-center" src="data:image/png;base64, {{ resvp_vs_time }}"  width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ sentb_vs_time }}"  width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ resvb_vs_time }}"  width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ sentp_vs_time }}" width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ resvp_vs_time }}"  width="100%" height="auto">
 <table id="t01" style="width:100%">
   <tr>
     <th>Sent over network in MB</th>

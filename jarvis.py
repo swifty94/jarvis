@@ -1,33 +1,31 @@
-##########################
+##############################################################################
 #
 #     Main web-server module
 #
-#     Requests routing depending on regular HTTP request from UI
+#     Requests routing depending on regular HTTP request from browser
 #
 #     Serving matplotlib and database content on fly
 #
-##########################
-# public modules import
+##############################################################################
 from flask import Flask, request, render_template, redirect, url_for, session
 import requests
 from waitress import serve
 from multiprocessing import Pool
 import logging
-# inner modules import
 from visualize_data import *
 from sql_strings import *
-##########################
+####################################################
 #
-#   LOGGING PROPERTIES
+#   Logging properties
 #
-##########################
+####################################################
 FORMAT = '%(asctime)s  %(levelname)s :  %(message)s'
 logging.basicConfig(filename="application.log", level=logging.INFO, format=FORMAT)
-############################
+####################################################
 #
-#  Unix 'top'-like monitor
+#  Psutil-based 'top'-like monitor/task mngr.
 #
-############################
+#####################################################
 def process_monitor():
     import psutil
     names = []
@@ -60,11 +58,11 @@ def process_monitor():
     logging.info('JARVIS: jarvis -> process_monitor() FINISH \n')
     result.sort(key=lambda x: x[2], reverse=True)
     return result
-#####################
+##########################################
 #
-#   Main web-server 
+#   Application URLs
 #
-#####################
+##########################################
 app = Flask(__name__)
 
 @app.errorhandler(404)
@@ -81,17 +79,22 @@ def page_forbidden(e):
 
 @app.after_request
 def add_header(response):
-    response.cache_control.max_age = 90
+    response.cache_control.max_age = 50
     return response
 
 @app.context_processor
 def header_data():
-    header_result1 = get_sql_data(header_q1)
-    header_result2 = get_sql_data(header_q2)
     sysinfo_result1 = get_sql_data(sysinfo_q1)
     sysinfo_result2 = get_sql_data(sysinfo_q2)
-    logging.info('JARVIS:  Jinja template cache refreshed \n')
-    return dict(header_result1=header_result1, header_result2=header_result2, sysinfo_result1=sysinfo_result1, sysinfo_result2=sysinfo_result2)
+    try:
+        logging.info('JARVIS:  context_processor -> refreshing Jinja template cache  \n')
+        return dict(sysinfo_result1=sysinfo_result1, sysinfo_result2=sysinfo_result2)
+    except Exception as e:
+        logging.error('JARVIS: context_processor -> FAILED to refresh Jinja template \n')
+        logging.error(f'JARVIS: caught exception [ {e} ]')
+        logging.error('JARVIS: Full trace: \n', exc_info=1)
+    finally:
+        logging.info('JARVIS:  context_processor -> Jinja template cache refreshed \n')
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -111,9 +114,11 @@ def index():
     resvb_vs_time = _pool.apply_async(single_kpi_now, (resvb_vs_time_q, resvb_vs_time_title, resvb_vs_time_ylable, ))
     sentp_vs_time = _pool.apply_async(single_kpi_now, (net_sent_p_q, net_sent_vs_time_title, net_sent_vs_time_ylable, ))
     resvp_vs_time = _pool.apply_async(single_kpi_now, (net_resv_q, net_resv_vs_time_title, net_resv_vs_time_ylable, ))
+    header_result1 = get_sql_data(header_q1)
+    header_result2 = get_sql_data(header_q2)
     try:
       logging.info('JARVIS: received HTTP request for "/" \n')
-      return render_template('index.html', ram_vs_time=ram_vs_time.get(), swap_vs_time=swap_vs_time.get(), ram_free_vs_time=ram_free_vs_time.get(), swap_free_vs_time=swap_free_vs_time.get(), coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), loadavg=loadavg.get(), disk_free=disk_free.get(), disk_used=disk_used.get(), disk_w=disk_w.get(), disk_r=disk_r.get(), sentb_vs_time=sentb_vs_time.get(), resvb_vs_time=resvb_vs_time.get(), sentp_vs_time=sentp_vs_time.get(), resvp_vs_time=resvp_vs_time.get())
+      return render_template('index.html', ram_vs_time=ram_vs_time.get(), swap_vs_time=swap_vs_time.get(), ram_free_vs_time=ram_free_vs_time.get(), swap_free_vs_time=swap_free_vs_time.get(), coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), loadavg=loadavg.get(), disk_free=disk_free.get(), disk_used=disk_used.get(), disk_w=disk_w.get(), disk_r=disk_r.get(), sentb_vs_time=sentb_vs_time.get(), resvb_vs_time=resvb_vs_time.get(), sentp_vs_time=sentp_vs_time.get(), resvp_vs_time=resvp_vs_time.get(), header_result1=header_result1, header_result2=header_result2)
     except Exception as e:
       logging.error('JARVIS: FAILED to process HTTP request for /dashboard STATUS: 500 Internal Server Error \n')
       logging.error(f'JARVIS: caught exception [ {e} ]')
@@ -139,9 +144,11 @@ def dashboard():
     resvb_vs_time = _pool.apply_async(single_kpi_now, (resvb_vs_time_q, resvb_vs_time_title, resvb_vs_time_ylable, ))
     sentp_vs_time = _pool.apply_async(single_kpi_now, (net_sent_p_q, net_sent_vs_time_title, net_sent_vs_time_ylable, ))
     resvp_vs_time = _pool.apply_async(single_kpi_now, (net_resv_q, net_resv_vs_time_title, net_resv_vs_time_ylable, ))
+    header_result1 = get_sql_data(header_q1)
+    header_result2 = get_sql_data(header_q2)
     try:
       logging.info('JARVIS: received HTTP request for /dashboard \n')
-      return render_template('index.html', ram_vs_time=ram_vs_time.get(), swap_vs_time=swap_vs_time.get(), ram_free_vs_time=ram_free_vs_time.get(), swap_free_vs_time=swap_free_vs_time.get(), coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), loadavg=loadavg.get(), disk_free=disk_free.get(), disk_used=disk_used.get(), disk_w=disk_w.get(), disk_r=disk_r.get(), sentb_vs_time=sentb_vs_time.get(), resvb_vs_time=resvb_vs_time.get(), sentp_vs_time=sentp_vs_time.get(), resvp_vs_time=resvp_vs_time.get())
+      return render_template('index.html', ram_vs_time=ram_vs_time.get(), swap_vs_time=swap_vs_time.get(), ram_free_vs_time=ram_free_vs_time.get(), swap_free_vs_time=swap_free_vs_time.get(), coretemp=coretemp.get(), cpu_usage_vs_time=cpu_usage_vs_time.get(), cpu_freq_vs_time=cpu_freq_vs_time.get(), loadavg=loadavg.get(), disk_free=disk_free.get(), disk_used=disk_used.get(), disk_w=disk_w.get(), disk_r=disk_r.get(), sentb_vs_time=sentb_vs_time.get(), resvb_vs_time=resvb_vs_time.get(), sentp_vs_time=sentp_vs_time.get(), resvp_vs_time=resvp_vs_time.get(), header_result1=header_result1, header_result2=header_result2)
     except Exception as e:
       logging.error('JARVIS: FAILED to process HTTP request for /dashboard STATUS: 500 Internal Server Error \n')
       logging.error(f'JARVIS: caught exception [ {e} ]')
@@ -508,7 +515,7 @@ def processes():
 
 if __name__ == "__main__":
     try:
-      _pool = Pool(processes=10)
+      _pool = Pool(processes=5)
       logging.info('========= JARVIS SERVER START ============= \n')
       logging.info('========= JARVIS Pool Initialized ============= \n')
       serve(app, host='0.0.0.0', port=5000)

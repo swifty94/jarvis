@@ -12,7 +12,7 @@ table, th, td {
 }
 @media screen and (min-width: 601px) {
   table, th, td {
-    font-size: 15px;
+    font-size: 14px;
   }
 }
 
@@ -30,13 +30,6 @@ table, th, td {
   border-style: hidden;
 }
 
-@media (max-width: 600px) {
-  .logo .mobile {
-    width: 0%;
-    display: none;
-  }
-}
-
 img {
   border-style: outset;
   width: 75%;
@@ -47,7 +40,7 @@ img {
 }
 
 .logo {
-  width: 10%;
+  width: 12%;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -111,6 +104,14 @@ td:hover {
 
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
+  .logo {
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 0%;
+    background-color:#deecff
+  }
   .topnav a.icon {
     float: right;
     display: block;
@@ -130,7 +131,6 @@ td:hover {
     text-align: left;
   }
 }
-
 
 .midnav {
   overflow: hidden;

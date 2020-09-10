@@ -110,7 +110,8 @@ td:hover {
 
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
-  td {word-wrap: break-word;}
+  #headt td {word-wrap: break-word;padding:10px;}
+  #headt th {padding: 4px;}
   .logo {
     width: 40%;
     margin-left: auto;

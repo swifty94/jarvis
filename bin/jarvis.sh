@@ -1,7 +1,9 @@
 #! /bin/sh
 ###########################################
 #
-#       Script to start Jarvis server
+#       Jarvis 
+#
+#               Startup script
 #
 ###########################################
 

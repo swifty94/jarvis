@@ -82,6 +82,7 @@ def single_kpi_now(sql, title, ylable):
 
     single_kpi_now(some_qeury, some_label, some_title, some_name)
     """
+    f = plt.figure()
     img = io.BytesIO()
     result = get_sql_data(sql)
     param = []
@@ -113,6 +114,7 @@ def single_kpi_now(sql, title, ylable):
     finally:
         logging.info(f'JARVIS: visualize_data -> single_kpi_now() \n Created [ {title} ] plot graph \n')
         plt.clf()
+        plt.close(f)
 
 
 def single_kpi_week(sql, title, ylable):
@@ -121,6 +123,7 @@ def single_kpi_week(sql, title, ylable):
     relevant for weekly statistics.
 
     """
+    f = plt.figure()
     img = io.BytesIO()
     result = get_sql_data(sql)
     param = []
@@ -152,6 +155,7 @@ def single_kpi_week(sql, title, ylable):
     finally:
         logging.info(f'JARVIS: visualize_data -> single_kpi_week() \n Created [ {title} ] plot graph \n')
         plt.clf()
+        plt.close(f)
 
 def single_kpi_month(sql, title, ylable):
     """
@@ -159,6 +163,7 @@ def single_kpi_month(sql, title, ylable):
     relevant for weekly statistics.
 
     """
+    f = plt.figure()
     img = io.BytesIO()
     result = get_sql_data(sql)
     param = []
@@ -190,3 +195,4 @@ def single_kpi_month(sql, title, ylable):
     finally:
         logging.info(f'JARVIS: visualize_data -> single_kpi_month() \n Created [ {title} ] plot graph \n')
         plt.clf()
+        plt.close(f)

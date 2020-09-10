@@ -67,6 +67,12 @@ td:hover {
   background-color: #ffffff;
   color: black;
 }
+#headt {
+  width: 100%; 
+  table-layout: fixed;   
+  background-color: #ffffff;
+  color: black;
+}
 .threshold-breach-minor { 
   background-color: #c0ffb5;
 }
@@ -104,6 +110,7 @@ td:hover {
 
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
+  td {word-wrap: break-word;}
   .logo {
     width: 40%;
     margin-left: auto;

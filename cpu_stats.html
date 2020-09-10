@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="w3-center">Date filter</h3>
+<div class="midnav" id="midnav">
+  <a href="/cpu_stats">Today (default)</a>
+  <a href="/cpu_week">This week</a>
+  <a href="/cpu_month">This month</a>
+  <a href="/cpu_week_prev">Previous week</a>
+  <a href="/cpu_month_prev">Previous month</a>
+    <a href="javascript:void(0);" class="icon" onclick="mobileMidMenu()">
+    <i class="fa fa-bars" style"font-size:15px"></i>
+  </a>
+</div>
+<br>
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ cpu_freq_vs_time }}"  width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ cpu_usage_vs_time }}" width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ coretemp }}" width="100%" height="auto">
+  <img class="w3-row w3-center w3-mobile" src="data:image/png;base64, {{ loadavg }}" width="100%" height="auto">
+<br>
+<table id="t01" style="width:100%">
+  <tr>
+    <th>CPU frequency</th>
+    <th>CPU load % </th>
+    <th>Date</th>
+  </tr>
+  {% for cur_freq,cpu_usage_t,updated in cpu_table_created %}
+    <tr>
+      <td>{{ cur_freq }}</td>
+      {% if cpu_usage_t <= 15.0 %}
+        <td class="threshold-breach-minor">{{ cpu_usage_t }}</td>
+      {% elif cpu_usage_t <= 30.0 %}
+        <td class="threshold-breach-major">{{ cpu_usage_t }}</td>
+      {% elif cpu_usage_t >= 60.0 %}
+        <td class="threshold-breach-critical">{{ cpu_usage_t }}</td>
+      {% else %}
+          <td>{{ cpu_usage_t }}</td>
+      {% endif %}
+    <td>{{ updated }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

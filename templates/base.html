@@ -6,20 +6,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body id="Body">      
-<div class="topnav" id="myTopnav">
+<!-- <div class="topnav" id="myTopnav">
   <a href="/dashboard" class=" w3-mobile"> Dashboard</a>
   <a href="/cpu_stats" class=" w3-mobile"> CPU</a>
   <a href="/ram_stats" class=" w3-mobile"> RAM</a>
   <a href="/disk_stats" class=" w3-mobile"> Hard drive</a>
   <a href="/net_stats" class=" w3-mobile"> Network</a>
   <a href="/processes" class=" w3-mobile"> Processes</a>
-  <img id="logo" class="w3-image w3-mobile" src="{{ url_for('static', filename='logo.webp')}}" style="width:8%;margin-right:15px">
+   <img class="logo mobile" src="{{ url_for('static', filename='logo.webp')}}" style="width:8%;margin-right:15px"> 
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars"></i>
   </a>
+</div> -->
+<img id="Logo" class="logo" src="{{ url_for('static', filename='logo.webp')}}">
+<br>
+<div class="topnav" id="Topnav">
+  <a href="/dashboard">Dashboard</a>
+  <a href="/cpu_stats">CPU</a>
+  <a href="/ram_stats">RAM</a>
+  <a href="/disk_stats">Disk</a>
+  <a href="/net_stats">Network</a>
+  <a href="/processes">Processes</a>
+  <a href="javascript:void(0);" class="icon" onclick="mobileTopMenu()">
+    <i class="fa fa-bars" style"font-size:15px"></i>
+  </a>
 </div>
+
 <br>
 <div class="w3-main w3-mobile" style="margin-left:0%;background-color:#deecff;font-size:20px">
 <header id="Head" class="w3-center" id="Header">
@@ -72,15 +87,6 @@
 <!-- Dynamic page content for child items goes here -->
 {% endblock %}
 </div>
-<script>
-function myFunction() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
-</script>
+<script type=text/javascript src="{{url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

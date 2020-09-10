@@ -5,7 +5,8 @@
 #
 ###########################################
 
-export JARVIS_HOME=/home/master/Dev/jarvis_master
+export JARVIS_HOME= # location of the jarvis home folder, e.g., ~/home/user/Download/jarvis-master
+
 export now=`date +%m_%d_%H:%M:%S`
 
 start() {

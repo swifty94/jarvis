@@ -66,7 +66,7 @@ def get_sql_data(sql):
             logging.error('JARVIS: Full trace: \n', exc_info=1)
             cursor.close()
         finally:
-            logging.info(f'JARVIS: visualize_data -> get_sql_data() \n SQL used  {sql} \n')
+            logging.info(f'JARVIS: visualize_data -> get_sql_data() \n')
             cursor.close()
 
 
@@ -99,7 +99,6 @@ def single_kpi_now(sql, title, ylable):
     ax.tick_params(direction='out', length=3, width=1, color='r')
     xfmt = md.DateFormatter('%m-%d %H:%M')
     ax.xaxis.set_major_formatter(xfmt)
-    #ax.xaxis.set_major_locator(md.MinuteLocator(interval=5))
     plt.plot
     plt.plot(dates,param, '-b')
     plt.tight_layout()

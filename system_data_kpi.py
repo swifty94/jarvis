@@ -34,8 +34,8 @@ def get_cpu():
     boot_r = psutil.boot_time()
     boot_h = datetime.fromtimestamp(boot_r)
     loadavg = [x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][0]
-    sensors_temp = psutil.sensors_temperatures()
-    if sensors_temp:
+    if hasattr(psutil, "sensors_temperatures"):
+        sensors_temp = psutil.sensors_temperatures()
         logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() SUPPORTED \n')
         coretemp_raw = sensors_temp["coretemp"]
         temps = []

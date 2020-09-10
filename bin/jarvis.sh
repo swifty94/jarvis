@@ -5,7 +5,7 @@
 #
 ###########################################
 
-export JARVIS_HOME=/home/master/Dev/jarvis_master
+export JARVIS_HOME="$(pwd)"
 export now=`date +%m_%d_%H:%M:%S`
 
 start() {

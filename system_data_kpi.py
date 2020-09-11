@@ -34,33 +34,26 @@ def get_cpu():
     boot_r = psutil.boot_time()
     boot_h = datetime.fromtimestamp(boot_r)
     loadavg = [x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][0]
-    if hasattr(psutil, "sensors_temperatures"):
+    if not hasattr(psutil, "sensors_temperatures"):
+        logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() -> NOT SUPPORTED OS \n')
+        coretemp = 0
+    else:
         sensors_temp = psutil.sensors_temperatures()
-        logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() SUPPORTED \n')
-        if "coretemp" in sensors_temp:
+        if not sensors_temp:
+            logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() -> Params are EMPTY \n')
+            coretemp = 0
+        else:
             coretemp_raw = sensors_temp["coretemp"]
             temps = []
             for x in coretemp_raw:
                 temps.append(x[1])
                 coretemp = round(sum(temps) / len(temps), 2)
-                try:
-                    logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): cpu: freq, percent, coretemp, boot, loadavgv \n')
-                    return cur_freq, cpu_percent, coretemp, boot_h, loadavg
-                except Exception as e:
-                    logging.error(f'JARVIS: Caught system_data_kpi in get_cpu() ->  [ {e} ] \n')
-                    logging.error('JARVIS: Full trace: \n', exc_info=1)
-        else:
-            coretemp = 0
-            logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() -> sensors_temp no coretemp key \n (CPU temperature = 0) \n')
-    else:
-        coretemp = 0
-        logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() NOT SUPPORTED \n All sensor values = 0 \n')
-        try:
-            logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): cpu: freq, percent, coretemp, boot, loadavgv \n')
-            return print(cur_freq, cpu_percent, coretemp, boot_h, loadavg)
-        except Exception as e:
-            logging.error(f'JARVIS: Caught system_data_kpi in get_cpu() ->  [ {e} ] \n')
-            logging.error('JARVIS: Full trace: \n', exc_info=1)
+    try:
+        logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): cpu: freq, percent, coretemp, boot, loadavgv \n')
+        return cur_freq, cpu_percent, coretemp, boot_h, loadavg
+    except Exception as e:
+        logging.error(f'JARVIS: Caught system_data_kpi in get_cpu() ->  [ {e} ] \n')
+        logging.error('JARVIS: Full trace: \n', exc_info=1)
 
 
 # Disk data
@@ -122,3 +115,4 @@ def get_sys():
     except Exception as e:
         logging.error(f'JARVIS: Caught system_data_kpi in get_sys() ->  [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
+

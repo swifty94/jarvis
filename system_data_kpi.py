@@ -57,7 +57,7 @@ def get_cpu():
         logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() NOT SUPPORTED \n All sensor values = 0 \n')
         try:
             logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): cpu: freq, percent, coretemp, boot, loadavgv \n')
-            return cur_freq, cpu_percent, coretemp, boot_h, loadavg
+            return print(cur_freq, cpu_percent, coretemp, boot_h, loadavg)
         except Exception as e:
             logging.error(f'JARVIS: Caught system_data_kpi in get_cpu() ->  [ {e} ] \n')
             logging.error('JARVIS: Full trace: \n', exc_info=1)

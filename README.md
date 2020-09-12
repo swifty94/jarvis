@@ -6,15 +6,15 @@ analysis-tool
 
 App stack:
 ========
-Python:
+- Python:
     - Psutil - KPI collection from OS API
     - Matplotlib - data visualization
     - Flask - web-framework
     - Multiprocessing 
     - Waitress - WSGI webserver
-MySQL
-HTML\Jinja2
-CSS\JS
+- MySQL
+- HTML\Jinja2
+- CSS\JS
 
 Requirements
 ========

@@ -4,12 +4,23 @@
 
 analysis-tool
 
+App stack:
+========
+Python:
+    - Psutil - KPI collection from OS API
+    - Matplotlib - data visualization
+    - Flask - web-framework
+    - Multiprocessing 
+    - Waitress - WSGI webserver
+MySQL
+HTML\Jinja2
+CSS\JS
+
 Requirements
 ========
 
 - Python 3.X. Windows users can download here: https://www.python.org/downloads/windows/
-              Linux users, please do:
-code-block::
+Linux users, please do:
 
 sudo apt update -y && sudoapt upgrade -y 
 sudo apt install python3 python3-venv python3-dev python3-pip libpng-dev libfreetype6-dev -y
@@ -22,7 +33,6 @@ Example usages
 Example of installation and start of application on Ubuntu server 18.01 LTS.
 Tests passed on AWS + Travis CI
 ---
-code-block::
 
 git clone https://github.com/swifty94/jarvis.git
 cd jarvis

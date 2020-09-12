@@ -67,7 +67,8 @@ start() {
                 echo 'Jarvis server: DONE'
                 echo ''
                 echo "Jarvis server: Installing dependencies...Hold on"
-                $JARVIS_HOME/venv/bin/pip3 install -r $JARVIS_HOME/modules.txt > /dev/null 2> /dev/null && sleep 2
+                $JARVIS_HOME/venv/bin/pip3 install -r $JARVIS_HOME/dependencies.txt > /dev/null 2> /dev/null && sleep 2
+                echo ''
                 echo "Jarvis server: DONE"
                 echo ''
                 $JARVIS_HOME/venv/bin/python3 $JARVIS_HOME/jarvis.py >> application.log &

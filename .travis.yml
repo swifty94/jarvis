@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.8"
+install:
+  - pip install -r requirements.txt
+  - 
+script:
+  - bash bin/jarvis.sh start
+  - bash bin/selfcheck.sh

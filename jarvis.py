@@ -517,12 +517,12 @@ if __name__ == "__main__":
     try:
       _pool = Pool(processes=5)
       logging.info('========= JARVIS SERVER START ============= \n')
-      logging.info('========= JARVIS Pool Initialized ============= \n')
+      logging.info('========= JARVIS Async Pool Initialized ============= \n')
       serve(app, host='0.0.0.0', port=5000)
     except OSError as ose:
       logging.error('======== FAIL ========')
       logging.error(f'======== JARVIS: Caught exception [ {ose} ] ======== \n')
-      logging.info('========= JARVIS Pool Initialization FAILED ============= \n')
+      logging.info('========= JARVIS Async Pool Initialization FAILED ============= \n')
       logging.error('JARVIS: Full trace: \n', exc_info=1)
     except Exception as e:
       logging.error('======== FAIL ======== \n')

@@ -112,7 +112,7 @@ def single_kpi_now(sql, title, ylable):
         logging.error(f'JARVIS: FAILED to call visualize_data -> single_kpi_now() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
     finally:
-        logging.info(f'JARVIS: visualize_data -> single_kpi_now() \n Created [ {title} ] plot graph \n')
+        logging.info(f'JARVIS: visualize_data -> single_kpi_now() \n Created "{title}" plot graph \n')
         plt.clf()
         plt.close(f)
 
@@ -153,7 +153,7 @@ def single_kpi_week(sql, title, ylable):
         logging.error(f'JARVIS: FAILED to call visualize_data -> single_kpi_week() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
     finally:
-        logging.info(f'JARVIS: visualize_data -> single_kpi_week() \n Created [ {title} ] plot graph \n')
+        logging.info(f'JARVIS: visualize_data -> single_kpi_week() \n Created "{title}" plot graph \n')
         plt.clf()
         plt.close(f)
 
@@ -193,6 +193,6 @@ def single_kpi_month(sql, title, ylable):
         logging.error(f'JARVIS: FAILED to call visualize_data -> single_kpi_month() caught exception [ {e} ] \n')
         logging.error('JARVIS: Full trace: \n', exc_info=1)
     finally:
-        logging.info(f'JARVIS: visualize_data -> single_kpi_month() \n Created [ {title} ] plot graph \n')
+        logging.info(f'JARVIS: visualize_data -> single_kpi_month() \n Created "{title}"" plot graph \n')
         plt.clf()
         plt.close(f)

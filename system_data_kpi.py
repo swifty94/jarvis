@@ -18,7 +18,7 @@ def get_ram():
     avail_mem = svmem.available
     used_mem = svmem.used
     try:
-        logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): swap: used,free ram:avail, used \n')
+        logging.info(f'JARVIS: system_data_kpi(): swap: sed,free ram: avail,used \n')
         return swap_used, swap_free, avail_mem, used_mem
     except Exception as e:
         logging.error(f'JARVIS: Caught system_data_kpi in get_ram() ->  [ {e} ] \n')
@@ -35,12 +35,12 @@ def get_cpu():
     boot_h = datetime.fromtimestamp(boot_r)
     loadavg = [x / psutil.cpu_count() * 100 for x in psutil.getloadavg()][0]
     if not hasattr(psutil, "sensors_temperatures"):
-        logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() -> NOT SUPPORTED OS \n')
+        logging.info(f'JARVIS: system_data_kpi() -> psutil -> sensors_temperatures() -> NOT SUPPORTED OS \n')
         coretemp = 0
     else:
         sensors_temp = psutil.sensors_temperatures()
         if not sensors_temp:
-            logging.info(f'JARVIS INFO: system_data_kpi() -> psutil -> sensors_temperatures() -> Params are EMPTY \n')
+            logging.info(f'JARVIS: system_data_kpi() -> psutil -> sensors_temperatures() -> Params are EMPTY \n')
             coretemp = 0
         else:
             coretemp_raw = sensors_temp["coretemp"]
@@ -49,7 +49,7 @@ def get_cpu():
                 temps.append(x[1])
                 coretemp = round(sum(temps) / len(temps), 2)
     try:
-        logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): cpu: freq, percent, coretemp, boot, loadavgv \n')
+        logging.info(f'JARVIS: system_data_kpi(): cpu: freq, percent, coretemp, boot, loadavgv \n')
         return cur_freq, cpu_percent, coretemp, boot_h, loadavg
     except Exception as e:
         logging.error(f'JARVIS: Caught system_data_kpi in get_cpu() ->  [ {e} ] \n')
@@ -66,7 +66,7 @@ def get_disk():
     read_io = disk_io.read_bytes
     write_io = disk_io.write_bytes
     try:
-        logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): disk: used/free space, read/write speed \n')
+        logging.info(f'JARVIS: system_data_kpi(): disk: used/free space, read/write speed \n')
         return d_used, d_free, read_io, write_io
     except Exception as e:
         logging.error(f'JARVIS: Caught system_data_kpi in get_disk() ->  [ {e} ] \n')
@@ -82,7 +82,7 @@ def get_net():
     recv_b = net_io.bytes_recv
     recv_p = net_io.packets_recv
     try:
-        logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): network: sent/recv bytes/packets\n')
+        logging.info(f'JARVIS: system_data_kpi(): network: sent/recv bytes/packets\n')
         return sent_b, sent_p, recv_b, recv_p
     except Exception as e:
         logging.error(f'JARVIS: Caught system_data_kpi in get_net() ->  [ {e} ] \n')
@@ -110,7 +110,7 @@ def get_sys():
     swap_total = swap.total
     total_mem = svmem.total
     try:
-        logging.info(f'JARVIS INFO: Processing:  system_data_kpi(): sys: refresh static data \n')
+        logging.info(f'JARVIS: system_data_kpi(): sys: refresh static data \n')
         return osname, nodename, version, osarch, cpuarch, cores_ph, cores_t, max_freq, min_freq, total_mem, swap_total, d_total
     except Exception as e:
         logging.error(f'JARVIS: Caught system_data_kpi in get_sys() ->  [ {e} ] \n')

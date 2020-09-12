@@ -14,3 +14,9 @@ install:
 script:
   - bash bin/jarvis.sh start
   - bash bin/selfcheck.sh
+notifications:
+  email:
+    recipients:
+      - kirillrudenko1994@gmail.com
+    on_success: always 
+    on_failure: always 

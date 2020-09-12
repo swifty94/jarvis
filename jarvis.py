@@ -13,7 +13,7 @@ from waitress import serve
 from multiprocessing import Pool
 import logging
 from visualize_data import *
-from sql_strings import *
+from data_models import *
 ####################################################
 #
 #   Logging properties

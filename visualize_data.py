@@ -12,7 +12,7 @@ import mysql.connector
 import dateutil
 import logging
 from datetime import datetime
-from sql_strings import dbconfig
+from data_models import dbconfig
 ####################################################
 #
 #   Logging properties

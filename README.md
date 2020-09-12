@@ -47,9 +47,9 @@ available options: start, stop, restart, check
 
 Windows users:
 ----
-Please adjust bin/jarvis.bat file in any text editor you use
-Change SET PYTHON= and SET JARVIS_HOME= variables with location of your Python installation and location of the jarvis app folder. Example:
-
+- Please adjust bin/jarvis.bat file in any text editor you use
+- Change SET PYTHON= and SET JARVIS_HOME= variables with location of your Python installation and location of the jarvis app folder. 
+- Example:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/jarvisbat.png)
 
 
@@ -64,12 +64,27 @@ Example output in web
 Dashboard
 ----
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/dashboard.png)
----
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/dashboard_2.png)
+
+RAM
+---
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/ram_prev_month.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/ram2.png)
+
+CPU
+---
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/cpu2.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/cpu3.png)
+
+Hard drive:
+---
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/disk.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/disk2.png)
 
 Network
 ----
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/network.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/net2.png)
 
 Processes
 ----

@@ -16,8 +16,8 @@ for i in "${ENDPOINTS[@]}"; do
     echo "HTTP request to $i endpoint"
     response=$(curl -s -I $URL/$i | grep HTTP/1.1 | awk {'print $2'})
     echo $response >> tmp.log
-    echo ''
     echo "HTTP response from $i - $response"
+    echo ''
 done
 
 INTSERVER=$(grep -ic 500 tmp.log)

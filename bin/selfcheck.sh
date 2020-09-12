@@ -12,6 +12,8 @@ ENDPOINTS=(
 "processes"
 )
 
-for i in "${ENDPOINTS[@]}"; do    
+for i in "${ENDPOINTS[@]}"; do
+    echo "HTTP request to $i"    
     curl -s -I $URL/$i
+    echo ''
 done

@@ -1,10 +1,14 @@
 language: python
 python:
   - "3.6"
+env:
+    global:
+     - TRAVIS=true
+before_install:
+    - sudo mysql -e 'source jarvis/jarvis_schema.sql'
 install:
   - pip install --upgrade setuptools
   - pip install -r dependencies.txt
-  - 
 script:
   - bash bin/jarvis.sh start
   - bash bin/selfcheck.sh

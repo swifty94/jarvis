@@ -7,7 +7,7 @@ env:
     global:
      - TRAVIS=true
 before_install:
-    - sudo mysql -e 'source jarvis/jarvis_schema.sql'
+    - sudo mysql -e 'source jarvis_schema.sql'
 install:
   - pip install --upgrade setuptools
   - pip install -r dependencies.txt

@@ -20,7 +20,7 @@ Available data and statistics:
 - Network (Amount of sent and recived MB and packets)  
 - Hard drive (Total, used and free amount on the hard drive)  
 - Current processes running sorted by CPU usage + displaying RAM usage + path of process (if can be obtained, there are bugs in Windows)  
-- Thresholds dynamically highlighting if CPU usage is <= 15%', <= 60% and > 60% of CPU usage
+- Thresholds dynamically highlighting if CPU usage is <= 15%, <= 60% and > 60% of CPU usage
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/cputableh.png)  
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/proch.png)
 

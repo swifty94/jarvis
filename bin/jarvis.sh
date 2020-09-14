@@ -67,7 +67,7 @@ start() {
                 echo 'Jarvis server: DONE'
                 echo ''
                 echo "Jarvis server: Installing dependencies...Hold on"
-                $JARVIS_HOME/venv/bin/pip3 install -r $JARVIS_HOME/dependencies.txt > /dev/null 2> /dev/null && sleep 2
+                $JARVIS_HOME/venv/bin/pip3 install -r $JARVIS_HOME/requirements.txt > /dev/null 2> /dev/null && sleep 2
                 echo ''
                 echo "Jarvis server: DONE"
                 echo ''
@@ -122,11 +122,11 @@ restart() {
 check() {
 URL='http://127.0.0.1:5000'
 ENDPOINTS=("/"
-"dashboard"
 "cpu_stats"
 "ram_stats"
 "net_stats"
 "disk_stats"
+"dashboard"
 "processes")
 for i in "${ENDPOINTS[@]}"; do
         echo "HTTP request to $i endpoint"

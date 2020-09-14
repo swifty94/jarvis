@@ -70,11 +70,14 @@ Example with restart + selfcheck option to validate HTTP 200 OK reply from UI en
 
 Windows users:
 ----
-- ``` git clone https://github.com/swifty94/jarvis.git ```
+- ``` git clone https://github.com/swifty94/jarvis.git ```  
+
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/wingit.png)
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/wingit2.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/wingit2.png)  
+
 - ``` cd C:\Program Files\MySQL\MySQL Server 5.7\bin\ ```
-- ``` mysql.exe -uroot -p C:\Users\Administrator\Downloads\jarvis_schema.sql ```
+- ``` mysql.exe -uroot -p C:\Users\Administrator\Downloads\jarvis_schema.sql ```  
+
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winimpoprt.png)
 
 - Create virtual environment and install dependecies. Example from CMD:  
@@ -86,14 +89,18 @@ Windows users:
 
 - Please adjust bin/jarvis.bat file in any text editor you use
 - Change SET PYTHON= and SET JARVIS_HOME= variables with location of your Python installation and location of the jarvis app folder. 
-- Example:
+- Example:  
+
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/jarvisbat.png)
 
-- In order to start the Jarvis server run bat file as administrator
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winstart.png)
+- In order to start the Jarvis server run bat file as administrator  
+
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winstart.png)  
+
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winruning.png)
 
-- You can validate application start in application.log file:
+- You can validate application start in application.log file:  
+
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winlog.gif)
 
 Example output in web

@@ -9,17 +9,17 @@ Demo application on AWS.:
 ------
 http://jarvis.swifty94-demo-dev.xyz:5000/
 
-- Tests passed on AWS + Travis CI (each push to master). 
-- Continuosus delivery by Jenkins (each push to master -> if validated > upgrade app served for demo).
+- Tests passed on AWS + Travis CI (each push to master).
+- Continuous Delivery by Jenkins (each push to master -> if validated > upgrade app served for demo).
 
 Available data and statistics:
 ----
-- General OS information (nodename, OS type, arch type, etc.)  
-- CPU (Number of cores, model, frequency, temperature on the core(not supported option on Windows due to psutil library limitation and might be not available by default on some models/OS)  
+- General OS information (node name, OS type, arch type, etc.)  
+- CPU (Number of cores, model, frequency, the temperature on the core(not supported option on Windows due to psutil library limitation and might be not available by default on some models/OS)  
 - RAM (Total, used and free amount of actual RAM and swap)  
-- Network (Amount of sent and recived MB and packets)  
+- Network (Amount of sent and received MB and packets)  
 - Hard drive (Total, used and free amount on the hard drive)  
-- Current processes running sorted by CPU usage + displaying RAM usage + path of process (if can be obtained, there are bugs in Windows)  
+- Current processes running sorted by CPU usage + displaying RAM usage + path of the process (if can be obtained, there are bugs in Windows)  
 - Thresholds dynamically highlighting if CPU usage is <= 15%, <= 60% and > 60% of CPU usage
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/cputableh.png)  
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/proch.png)
@@ -31,7 +31,7 @@ Available data and statistics:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/graph3.png)  
 
 
-### Time-based options for each KPI: latest for today, this week, this month, previous week, previous month.
+### Time-based options for each KPI: latest for today, this week, this month, previous week, the previous month.
 
 App stack:
 ========
@@ -48,13 +48,13 @@ App stack:
 Requirements
 ========
 
-- Python 3.X. with latests libs, dependecies etc. 
+- Python 3.X. with the latest libs, dependencies, etc.
     - Linux users (verified on Ubuntu 18.04, other distros must use their packet managers, e.g. yum, dnf, etc.):
     ``` sudo apt update -y && apt upgrade -y ```  
     ``` sudo apt install python3 python3-venv python3-dev python3-pip libpng-dev libfreetype6-dev -y ```  
     - Windows users can download here: https://www.python.org/downloads/windows/
 
-- MySQL 5.7: 
+- MySQL 5.7:
     - Linux users (verified on Ubuntu 18.04, other distros must use their packet managers, e.g. yum, dnf, etc. and/or adjust repositories to download 5.7 instead of 8.0):  
    ```sudo apt install mysql-server -y ```  
    ```sudo systemctl start mysql ```  
@@ -66,16 +66,17 @@ Usage:
 
 Example of installation and start of application on Ubuntu server 18.01 LTS.
 ---
-NOTE: If virtual environment and required dependencies does not exists, it will be installed and set automatically.
+NOTE: If the virtual environment and required dependencies do not exist, it will be installed and set automatically.
 
 - ``` git clone https://github.com/swifty94/jarvis.git ```  
 - ``` cd jarvis ```  
 - ``` mysql -uroot -p'you_root_pass' < jarvis_schema.sql ```
 - ``` bash bin/jarvis.sh start ```  
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationstart.gif)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationstart.png)
 
-- You can validate application start in application.log file:
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.gif)
+- You can validate the application start in the application.log file:
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog2.png)
 
 - Available options to interract with jarvis.sh script:  
 
@@ -109,8 +110,8 @@ Windows users:
 ``` cd Scripts ```  
 ``` pip3.exe install -r C:\Users\Administrator\Downloads\jarvis\requirements.txt ```  
 
-- Please adjust bin/jarvis.bat file in any text editor you use
-- Change SET PYTHON= and SET JARVIS_HOME= variables with location of your Python installation and location of the jarvis app folder. 
+- Please adjust the bin/jarvis.bat file in any text editor you use
+- Change SET PYTHON= and SET JARVIS_HOME= variables with the location of your Python installation and location of the Jarvis app folder.
 - Example:  
 
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/jarvisbat.png)

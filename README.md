@@ -55,13 +55,15 @@ NOTE: If virtual environment and required dependencies does not exists, it will 
 - You can validate application start in application.log file:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.gif)
 
-- Available options to interract with jarvis.sh script:
+- Available options to interract with jarvis.sh script:  s
 ``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
+
 ``` Jarvis server: NOTE: usage example: ```  
 
 ``` user@host:~/jarvis_home ./jarvis start ```  
 
 ``` available options: start, stop, restart, check ```  
+
 Example with restart + selfcheck option to validate HTTP 200 OK reply from UI endpoints:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationcheck.gif)
 

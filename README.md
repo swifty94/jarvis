@@ -75,12 +75,15 @@ Windows users:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/wingit2.png)
 - ``` cd C:\Program Files\MySQL\MySQL Server 5.7\bin\ ```
 - ``` mysql.exe -uroot -p C:\Users\Administrator\Downloads\jarvis_schema.sql ```
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winimport.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winimpoprt.png)
 
-- Create virtual environment and install dependecies. Example from CMD:
-```cd C:\Users\Administrator\Downloads\jarvis```  
-``` C:\Users\Administrator\AppData\Local\Programs\Python\Python38\python3 -m venv venv ```  
-``` C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Scripts\pip3 install -r requirements. txt ```  
+- Create virtual environment and install dependecies. Example from CMD:  
+
+``` cd C:\Users\Administrator\AppData\Local\Programs\Python\Python38\```  
+``` python.exe -m venv C:\Users\Administrator\Downloads\jarvis\venv ```  
+``` cd Scripts ```  
+``` pip3.exe install -r C:\Users\Administrator\Downloads\jarvis\requirements.txt ```  
+
 - Please adjust bin/jarvis.bat file in any text editor you use
 - Change SET PYTHON= and SET JARVIS_HOME= variables with location of your Python installation and location of the jarvis app folder. 
 - Example:

@@ -2,7 +2,7 @@
 
 # Jarvis
 
-Server / PC / Laptop health analysis-tool
+Server | PC | Laptop health analysis-tool written in Python
 ---
 
 Demo application on AWS.:

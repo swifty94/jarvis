@@ -55,7 +55,7 @@ NOTE: If virtual environment and required dependencies does not exists, it will 
 - You can validate application start in application.log file:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.gif)
 
-- Available options to interract with jarvis.sh script:  s
+- Available options to interract with jarvis.sh script:  
 ``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
 
 ``` Jarvis server: NOTE: usage example: ```  

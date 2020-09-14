@@ -31,21 +31,21 @@ Example usages
 ==============
 
 Example of installation and start of application on Ubuntu server 18.01 LTS.
+---
 Tests passed on AWS + Travis CI
 ---
 
-''' 
-git clone https://github.com/swifty94/jarvis.git
-cd jarvis
-bash bin/jarvis start|stop|restart|check
+``` git clone https://github.com/swifty94/jarvis.git ```
+``` cd jarvis ```
+``` bash bin/jarvis start|stop|restart|check ```
 
-master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh
-Jarvis server: NOTE: usage example:
+``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```
+``` Jarvis server: NOTE: usage example: ```
 
-user@host:~/jarvis_home ./jarvis start
+``` user@host:~/jarvis_home ./jarvis start ```
 
-available options: start, stop, restart, check
-'''
+``` available options: start, stop, restart, check ```
+```
 Windows users:
 ----
 - Please adjust bin/jarvis.bat file in any text editor you use

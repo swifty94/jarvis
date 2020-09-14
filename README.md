@@ -89,7 +89,8 @@ NOTE: If the virtual environment and required dependencies do not exist, it will
 ``` available options: start, stop, restart, check ```  
 
 Example with restart + selfcheck option to validate HTTP 200 OK reply from UI endpoints:
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationcheck.gif)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationcheck.png)  
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationcheck2.png)
 
 Windows users:
 ----

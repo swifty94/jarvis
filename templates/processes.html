@@ -13,11 +13,11 @@
     <tr>
       <td>{{ a }}</td>
       <td>{{ b }}</td>
-      {% if c <= 15.0 %}
+      {% if c <= 15 %}
         <td class="threshold-breach-minor">{{ c }}</td>
-      {% elif c <= 30.0 %}
+      {% elif c <= 70 %}
         <td class="threshold-breach-major">{{ c }}</td>
-      {% elif c >= 70.0 %}
+      {% elif c >= 70 %}
         <td class="threshold-breach-critical">{{ c }}</td>
       {% else %}
         <td>{{ c }}</td>

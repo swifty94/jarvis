@@ -1,6 +1,6 @@
 SET PYTHON= # set location of your Python installation here
 
-SET JARVIS_HOME= # set location of the jarvis folder
+SET JARVIS_HOME= # set location of the jarvis folder here
 
 cd %JARVIS_HOME%
 

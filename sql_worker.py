@@ -4,7 +4,7 @@ import sys
 import mysql.connector
 import logging
 from system_data_kpi import *
-from sql_strings import *
+from data_models import *
 from visualize_data import performance
 ####################################################
 #

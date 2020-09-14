@@ -515,7 +515,7 @@ def processes():
 
 if __name__ == "__main__":
     try:
-      _pool = Pool(processes=5)
+      _pool = Pool(processes=2)
       logging.info('========= JARVIS SERVER START ============= \n')
       logging.info('========= JARVIS Async Pool Initialized ============= \n')
       serve(app, host='0.0.0.0', port=5000)

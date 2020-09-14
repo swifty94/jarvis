@@ -12,6 +12,19 @@ http://jarvis.swifty94-demo-dev.xyz:5000/
 - Tests passed on AWS + Travis CI (each push to master). 
 - Continuosus delivery by Jenkins (each push to master -> if validated > upgrade app served for demo).
 
+Available data and statistics:
+----
+- General OS information (nodename, OS type, arch type, etc.)
+- CPU (Number of cores, model, frequency, temperature on the core(not supported option on Windows due to psutil library limitation and might be not available by default on some models/OS))
+- RAM (Total, used and free amount of actual RAM and swap)
+- Network (Amount of sent and recived MB and packets)
+- Hard drive (Total, used and free amount on the hard drive)
+- Current processes running sorted by CPU usage + displaying RAM usage + path of process (if can be obtained, there are bugs in Windows)
+
+**Data is representing statistics and its graphical view on the graphs and tables based on data stored in the database and written in there by programm itself.
+
+**Time-based options for each KPI: latest for today, this week, this month, previous week, previous month.
+
 App stack:
 ========
 - Python:

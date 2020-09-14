@@ -25,11 +25,11 @@
   {% for cur_freq,cpu_usage_t,updated in cpu_table_created %}
     <tr>
       <td>{{ cur_freq }}</td>
-      {% if cpu_usage_t <= 15.0 %}
+      {% if cpu_usage_t <= 15 %}
         <td class="threshold-breach-minor">{{ cpu_usage_t }}</td>
-      {% elif cpu_usage_t <= 30.0 %}
+      {% elif cpu_usage_t <= 60 %}
         <td class="threshold-breach-major">{{ cpu_usage_t }}</td>
-      {% elif cpu_usage_t >= 60.0 %}
+      {% elif cpu_usage_t >= 60 %}
         <td class="threshold-breach-critical">{{ cpu_usage_t }}</td>
       {% else %}
           <td>{{ cpu_usage_t }}</td>

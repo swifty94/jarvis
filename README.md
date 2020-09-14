@@ -34,24 +34,35 @@ Example of installation and start of application on Ubuntu server 18.01 LTS.
 ---
 Tests passed on AWS + Travis CI
 ---
+NOTE: If virtual environment and required dependencies does not exists, it will be installed and set automatically.
 
 - ``` git clone https://github.com/swifty94/jarvis.git ```  
 - ``` cd jarvis ```  
-- ``` bash bin/jarvis start|stop|restart|check ```  
+- ``` mysql -uroot -p'you_root_pass' < jarvis_schema.sql ```
+- ``` bash bin/jarvis start ```  
+- You can validate application start in application.log file
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.gif)
 
-- ``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
+- Available options to interract with jarvis.sh script:
+``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
 ``` Jarvis server: NOTE: usage example: ```  
 
 ``` user@host:~/jarvis_home ./jarvis start ```  
 
 ``` available options: start, stop, restart, check ```  
 
+
 Windows users:
 ----
+- Create virtual environment and install dependecies. Example from CMD:
+```cd C:\Users\Administrator\Downloads\jarvis```  
+``` C:\Users\Administrator\AppData\Local\Programs\Python\Python38\python3 -m venv venv ```  
+``` C:\Users\Administrator\AppData\Local\Programs\Python\Python38\Scripts\pip3 install -r requirements. txt ```  
 - Please adjust bin/jarvis.bat file in any text editor you use
 - Change SET PYTHON= and SET JARVIS_HOME= variables with location of your Python installation and location of the jarvis app folder. 
 - Example:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/jarvisbat.png)
+- In order to start the Jarvis server simply double-click on jarvis.bat
 
 
 Demo application on AWS.:

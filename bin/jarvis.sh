@@ -126,7 +126,6 @@ ENDPOINTS=("/"
 "ram_stats"
 "net_stats"
 "disk_stats"
-"dashboard"
 "processes")
 for i in "${ENDPOINTS[@]}"; do
         echo "HTTP request to $i endpoint"

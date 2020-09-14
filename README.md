@@ -33,7 +33,7 @@ Requirements
     - Windows users can download here: https://www.python.org/downloads/windows/
 
 - MySQL 5.7: 
-    - Linux users (verified on Ubuntu 18.04, other distros must use their packet managers, e.g. yum, dnf, etc. and/or adjust repositories to download 5.7 instead of 8.0):
+    - Linux users (verified on Ubuntu 18.04, other distros must use their packet managers, e.g. yum, dnf, etc. and/or adjust repositories to download 5.7 instead of 8.0):  
    ```sudo apt install mysql-server -y ```  
    ```sudo systemctl start mysql ```  
    ```mysql_secure_installation ```  

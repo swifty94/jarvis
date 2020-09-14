@@ -22,7 +22,7 @@ Available data and statistics:
 - Current processes running sorted by CPU usage + displaying RAM usage + path of the process (if can be obtained, there are bugs in Windows)  
 - Thresholds dynamically highlighting if CPU usage is <= 15%, <= 60% and > 60% of CPU usage
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/cputableh.png)  
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/proch.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/proch.png)  
 
 
 ### Data is representing statistics and its graphical view on the graphs and tables based on data stored in the database and written in there by programm itself.

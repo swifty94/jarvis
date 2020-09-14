@@ -34,6 +34,7 @@ Example of installation and start of application on Ubuntu server 18.01 LTS.
 Tests passed on AWS + Travis CI
 ---
 
+''' 
 git clone https://github.com/swifty94/jarvis.git
 cd jarvis
 bash bin/jarvis start|stop|restart|check
@@ -44,7 +45,7 @@ Jarvis server: NOTE: usage example:
 user@host:~/jarvis_home ./jarvis start
 
 available options: start, stop, restart, check
-
+'''
 Windows users:
 ----
 - Please adjust bin/jarvis.bat file in any text editor you use

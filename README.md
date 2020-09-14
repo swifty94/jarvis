@@ -75,7 +75,7 @@ NOTE: If the virtual environment and required dependencies do not exist, it will
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationstart.png)
 
 - You can validate the application start in the application.log file:
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog1.png)
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog2.png)
 
 - Available options to interract with jarvis.sh script:  

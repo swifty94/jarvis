@@ -56,6 +56,7 @@ NOTE: If virtual environment and required dependencies does not exists, it will 
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/applicationlog.gif)
 
 - Available options to interract with jarvis.sh script:  
+
 ``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
 
 ``` Jarvis server: NOTE: usage example: ```  

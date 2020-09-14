@@ -91,7 +91,7 @@ Windows users:
 
 - In order to start the Jarvis server run bat file as administrator
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winstart.png)
-![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winrunning.png)
+![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winruning.png)
 
 - You can validate application start in application.log file:
 ![](https://raw.githubusercontent.com/swifty94/jarvis/master/img/winlog.gif)

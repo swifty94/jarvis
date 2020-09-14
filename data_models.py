@@ -267,7 +267,7 @@ WHERE DATE(updated) = curdate()
 ORDER BY updated ASC;
 """
 cpu_freq_vs_time_title = 'CPU frequency'
-cpu_freq_vs_time_ylable = 'Hz'
+cpu_freq_vs_time_ylable = 'GHz'
 
 cpu_usage_t_vs_time_q = """
 SELECT cpu_percent, 

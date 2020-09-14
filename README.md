@@ -39,10 +39,13 @@ Tests passed on AWS + Travis CI
 - ``` cd jarvis ```  
 - ``` bash bin/jarvis start|stop|restart|check ```  
 
-``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
+- ``` master@devnull:~/Dev/jarvis_release$ bash bin/jarvis.sh ```  
 ``` Jarvis server: NOTE: usage example: ```  
+
 ``` user@host:~/jarvis_home ./jarvis start ```  
+
 ``` available options: start, stop, restart, check ```  
+
 Windows users:
 ----
 - Please adjust bin/jarvis.bat file in any text editor you use

@@ -22,10 +22,10 @@ Available data and statistics:
 - Current processes running sorted by CPU usage + displaying RAM usage + path of process (if can be obtained, there are bugs in Windows)  
 
 Data is representing statistics and its graphical view on the graphs and tables based on data stored in the database and written in there by programm itself.
----
+#
 
 Time-based options for each KPI: latest for today, this week, this month, previous week, previous month.
----
+#
 
 App stack:
 ========
